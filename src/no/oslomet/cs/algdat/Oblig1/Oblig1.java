@@ -33,9 +33,52 @@ public class Oblig1 {
         throw new NotImplementedException();
     }
 
-    ///// Oppgave 4 //////////////////////////////////////
-    public static void delsortering(int[] a) {
-        throw new NotImplementedException();
+    ///// Oppgave 4 //////////////////////////////////////hei
+
+    //Lager metoden public static void delsortering (int[] a)
+    //Sorterer tabellen a
+    public static void delsortering(int[] a, int tall) {
+
+        //throw new NotImplementedException();
+
+        Arrays.sort(a); //Sorterer tabellen i stigende rekkefølge
+
+        //Indeksene som er nå fra høyre og venstre
+        //venstre = 0, høyre = tall - 1
+        int venstre = 0;
+        int høyre = tall - 1;
+
+        int oddeTall = 0; //Antall oddetall
+        int antall = 0; //Antall delsorteringer
+
+        for (int i = 1; i < a.length; i++) { //Lager en for-løkke, og starter med i = 1
+            if ((a[i] & 1) != 0) //Hvis a[i] for alle array elementene og 1 er ikke lik 0
+                antall++; //Teller opp delsorteringen
+
+            //Finner partallene fra høyre siden
+            while ((venstre < høyre) && a[høyre] % 2 == 0) {
+                høyre--;
+            }
+
+            //Finner oddetallene fra venstre siden
+            while (a[venstre] % 2 != 0) {
+                oddeTall++;
+                venstre++;
+            }
+
+            //Bytter om a[høyre] og a[venstre]
+            //Bytter alle  oddetallene til venstre side og alle partallene til høyre
+            if (venstre < høyre) {
+                int temp = a[venstre];
+                a[venstre] = a[høyre];
+                a[høyre] = temp;
+            }
+        }
+        //Sorterer partallene i stigende rekkefølge
+        Arrays.sort(a, oddeTall, tall);
+
+        //Sorterer oddetallene i stigende rekkefølge
+        Arrays.sort(a, 0, oddeTall);
     }
 
     ///// Oppgave 5 //////////////////////////////////////
