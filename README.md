@@ -11,8 +11,8 @@ Oppgaven er levert av følgende studenter:
 # Arbeidsfordeling
 
 I oppgaven har vi hatt følgende arbeidsfordeling:
-* Awais har hatt hovedansvar for oppgave 1 og 5. 
-* Asso har hatt hovedansvar for oppgave 2
+* Awais har hatt hovedansvar for oppgave 1 og 2. 
+* Asso har hatt hovedansvar for oppgave 5
 * Rahu har hatt hovedansvar for oppgave 3. 
 * Poorani har hatt hovedansvar for oppgave 4. 
 * Linda har hatt hovedansvar for oppgave 6 og 7.
