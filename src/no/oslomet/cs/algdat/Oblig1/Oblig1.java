@@ -9,6 +9,7 @@ import java.util.NoSuchElementException;
 
 
 public class Oblig1 {
+
     private Oblig1() {
     }
 
