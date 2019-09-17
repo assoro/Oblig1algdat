@@ -7,6 +7,8 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 
+import static no.oslomet.cs.algdat.Oblig1.Oblig1.kvikksortering;
+
 
 public class Oblig1 {
 
@@ -99,10 +101,19 @@ public class Oblig1 {
             }
         }
         //Sorterer partallene i stigende rekkefølge
-        Arrays.sort(a, oddeTall, a.length);
+        kvikksortering(a, oddeTall, a.length);
 
         //Sorterer oddetallene i stigende rekkefølge
-        Arrays.sort(a, 0, oddeTall);
+        kvikksortering(a, 0, oddeTall);
+    }
+    public static void kvikksortering_1 (int[] a, int v, int h) {
+        if (v >= h){
+            return;
+        }
+    }
+    //Lager metode for kvikksortering - fra, til i sortering
+    public static void kvikksortering(int[] a, int fra, int til){
+        kvikksortering_1(a, fra , til);
     }
 
     ///// Oppgave 5 //////////////////////////////////////
