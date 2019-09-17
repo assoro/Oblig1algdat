@@ -110,7 +110,34 @@ public class Oblig1 {
 
     ///// Oppgave 9 //////////////////////////////////////
     public static int[] tredjeMin(int[] a) {
-        throw new NotImplementedException();
+
+        int tabell = a.length; //tabellens lengde
+        //minst tre verdi
+        if (tabell < 3 ) throw new IllegalArgumentException("a.length(" + tabell + ") < 3!");
+
+        //Tre hjelpevariabler
+        int m = 0; //minste verdi
+        int nm = 1; //nest minste verdi
+        int tm = 2; //tredje minste verdi
+
+        //Tre hjelpevariabler
+        int minst = a[m];
+        int nestminst = a[nm];
+        int tredjeminst = a[tm];
+
+        for (int i = 3; i < tabell; i++) { ////Lager en for-løkke
+            if (a[i] < tredjeminst) {
+                if (a[i] < nestminst) {
+                    if (a[i] < minst) {
+                        tredjeminst = nestminst;
+                        nestminst = minst;
+                        minst = i;
+                    }
+                }
+            }
+        }
+        //Returnerer m i psoisjon 0, nm i posisjon 1, og tm i posisjon 2
+        return new int[] {m, nm, tm};
     }
 
     ///// Oppgave 10 //////////////////////////////////////
