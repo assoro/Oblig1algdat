@@ -41,7 +41,6 @@ public class Oblig1 {
     public static void delsortering(int[] a) {
 
         //throw new NotImplementedException();
-
         Arrays.sort(a); //Sorterer tabellen i stigende rekkefølge
 
         //Indeksene som er nå fra høyre og venstre
