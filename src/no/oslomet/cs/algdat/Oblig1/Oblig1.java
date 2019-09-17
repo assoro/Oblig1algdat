@@ -37,16 +37,16 @@ public class Oblig1 {
 
     //Lager metoden public static void delsortering (int[] a)
     //Sorterer tabellen a
-    public static void delsortering(int[] a, int tall) {
+
+    public static void delsortering(int[] a) {
 
         //throw new NotImplementedException();
-
         Arrays.sort(a); //Sorterer tabellen i stigende rekkefølge
 
         //Indeksene som er nå fra høyre og venstre
         //venstre = 0, høyre = tall - 1
         int venstre = 0;
-        int høyre = tall - 1;
+        int høyre = a.length - 1;
 
         int oddeTall = 0; //Antall oddetall
         int antall = 0; //Antall delsorteringer
@@ -75,7 +75,7 @@ public class Oblig1 {
             }
         }
         //Sorterer partallene i stigende rekkefølge
-        Arrays.sort(a, oddeTall, tall);
+        Arrays.sort(a, oddeTall, a.length);
 
         //Sorterer oddetallene i stigende rekkefølge
         Arrays.sort(a, 0, oddeTall);
