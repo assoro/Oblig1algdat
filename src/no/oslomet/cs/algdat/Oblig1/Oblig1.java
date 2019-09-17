@@ -158,6 +158,10 @@ public class Oblig1 {
         //minst tre verdi
         if (tabell < 3 ) throw new IllegalArgumentException("a.length(" + tabell + ") < 3!");
 
+        //Sorterer verdiene for å vite hvem som er minst
+        int [] c = new int [3];
+        int[] indeks = indekssortering(c);
+
         //Tre hjelpevariabler
         int m = 0; //minste verdi
         int nm = 1; //nest minste verdi
