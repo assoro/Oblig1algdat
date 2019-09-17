@@ -33,7 +33,7 @@ public class Oblig1 {
         throw new NotImplementedException();
     }
 
-    ///// Oppgave 4 //////////////////////////////////////hei
+    ///// Oppgave 4 //////////////////////////////////////heihei
 
     //Lager metoden public static void delsortering (int[] a)
     //Sorterer tabellen a
