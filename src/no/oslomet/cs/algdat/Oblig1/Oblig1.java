@@ -30,8 +30,32 @@ public class Oblig1 {
 
     ///// Oppgave 3 //////////////////////////////////////
     public static int antallUlikeUsortert(int[] a) {
-        throw new NotImplementedException();
-    }
+
+        //throw new NotImplementedException();
+
+
+                int k =0;//Hjelpevariabel som teller antallet ulike verdier
+
+                for(int i=0;i<a.length; i++){
+                    boolean lik = false;//boolean-variabel som settes til true når to verdier er like
+                    for(int j=0;j<i;j++){
+                        if(a[i] == a[j]){
+                            lik = true;
+                            break;
+                        }
+                    }
+
+                    if(!lik){ //Dersom to verdier ikke er like skal k økes med 1
+
+                        k++;
+                    }
+
+
+                };
+
+                return k;//Returnerer k
+            };
+
 
     ///// Oppgave 4 //////////////////////////////////////heihei
 
