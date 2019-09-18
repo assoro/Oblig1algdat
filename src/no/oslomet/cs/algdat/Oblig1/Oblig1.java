@@ -43,6 +43,27 @@ int temp = a[i]; a[i] = a[j]; a[j] = temp; }
     public static int ombyttinger(int[] a) {
         throw new NotImplementedException();
     }
+    
+    /*
+Oppgave 1
+   
+I en tabell med n verdier, blir det foretatt n - 1 sammenligninger.
+
+Det blir gjort flest ombyttinger 
+når den største verdien forekommer først i arrayet.
+
+Det blir gjort færrest ombyttinger 
+når den største verdien forekommer sist i arrayet.
+    
+For å finne gjennomsnittet av ombyttinger
+må en først finne antallet permutasjoner. Arrayet "liste" kan settes opp på
+4!=24 permutasjoner. Fra 1.1.6 i kompendiet har vi at formelen for gjennomstnitt 
+kan uttrykkes slik; 1/2 + 1/3 + 1/n. Vi får dermed 6/12 + 4/12 + 3/12 = 13/12.
+Gjennomsnittlig foretas altså 13/12 eller ca 1 ombyttinger i arrayet.
+Videre kan en si at denne funksjonen er mer effektiv enn maks metodene vi har sett på før, 
+ettersom den dominerende operasjonen utføres mindre.
+    
+*/
 
     ///// Oppgave 2 //////////////////////////////////////
     public static int antallUlikeSortert(int[] a) {
