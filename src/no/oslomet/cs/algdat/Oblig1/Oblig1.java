@@ -41,7 +41,27 @@ public static void bytt(int[] a, int i, int j) {
 int temp = a[i]; a[i] = a[j]; a[j] = temp; }
 
     public static int ombyttinger(int[] a) {
-        throw new NotImplementedException();
+            if (a.length < 1)
+throw new java.util.NoSuchElementException("Tabellen a er tom!");
+
+int m = 0; 
+int j = 0;//Hjelpeverdi som øker med 1 hver gang det foretas en ombygging
+
+for (int i=1;i<a.length;i++)
+{
+    
+if (a[m] > a[i])
+    
+{bytt(a,i,m);
+    j++; }
+
+// j oppdateres    
+
+m++;
+    }
+    
+
+    return j; // returnerer antallet ombyttinger
     }
     
     /*
@@ -68,27 +88,32 @@ ettersom den dominerende operasjonen utføres mindre.
     ///// Oppgave 2 //////////////////////////////////////
     public static int antallUlikeSortert(int[] a) {
         
-        if (a.length < 1)
-throw new java.util.NoSuchElementException("Tabellen a er tom!");
+        for (int i=1;i<a.length;i++) 
+    if (a[i-1] > a[i]) 
+    throw new IllegalStateException("Tabellen er ikke sortert i stigende rekkfølge");
 
-int m = 0; 
-int j = 0;//Hjelpeverdi som øker med 1 hver gang det foretas en ombygging
-
-for (int i=1;i<a.length;i++)
-{
+    int k =0;//Hjelpevariabel som teller antallet ulike verdier
+ 
+     for(int i=0;i<a.length;i++){
+            boolean lik = false;//boolean-variabel som settes til true når to verdier er like 
+            for(int j=0;j<i;j++){
+                if(a[i] == a[j]){
+                    lik = true;
+                    break;
+                }
+            }
+            
+            if(!lik){ //Dersom to verdier ikke er like skal k økes med 1
+                
+               k++; 
+            }
+                
+   
+    };
+ 
+ return k;//Returnerer k
+        
     
-if (a[m] > a[i])
-    
-{bytt(a,i,m);
-    j++; }
-
-// j oppdateres    
-
-m++;
-    }
-    
-
-    return j; // returnerer antallet ombyttinger
     }
 
 
