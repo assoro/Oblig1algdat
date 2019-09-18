@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class Oblig1UnitTest {
 
-    @org.junit.jupiter.api.Test
+    @org.junit.jupiter.api.Test//fix
     void maks() {
         int [] liste = {1,3,2,4,6,10,-1,8,9,18,23,22};
         Oblig1.maks(liste);
