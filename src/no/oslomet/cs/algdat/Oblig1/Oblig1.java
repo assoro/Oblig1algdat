@@ -353,6 +353,41 @@ ettersom den dominerende operasjonen utføres mindre.
 
     ///// Oppgave 10 //////////////////////////////////////
     public static int bokstavNr(char bokstav) {
+        if (bokstav <= 'Z') return bokstav - 'A';  // A=0,B=1,C=2, osv.
+        else if (bokstav == 'Ø') return 27;        // Ø=27
+        else if (bokstav == 'Å') return 28;        // Å=28
+        else return 26;                            // Æ=26
+    }
+
+    public static boolean inneholdt(String a, String b)  // 1. forslag
+    {
+        if (a.length() > b.length()) return false;  //a kan ikke ha flere bokstaver
+
+        int[] antall = new int[29];  //29 bokstaver
+        for (int i = 0; i < a.length(); i++) antall[bokstavNr(a.charAt(i))]++;
+        for (int i = 0; i < b.length(); i++) antall[bokstavNr(b.charAt(i))]--;
+        for (int i = 0; i < antall.length; i++) if (antall[i] > 0) return false;
+
+        return true;
+    }
+
+    public static boolean inneholdt2(String a, String b)  // 2. forslag
+    {
+        if (a.length() > b.length()) return false; // a kan ikke ha flere bokstaver
+
+        int[] antall = new int[256];
+
+        int n = a.length(), m = b.length();
+
+        for (int i = 0; i < n; i++) antall[a.charAt(i)]++;  //opp
+        for (int i = 0; i < m; i++) antall[b.charAt(i)]--;  //ned
+
+        for (int i = 0; i < antall.length; i++) if (antall[i] > 0) return false;
+
+        return true;
+
+
+
         throw new NotImplementedException();
     }
 
