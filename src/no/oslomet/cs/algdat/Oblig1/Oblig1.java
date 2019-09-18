@@ -15,7 +15,7 @@ public class Oblig1 {
     private Oblig1() {
     }
 
-    ///// Oppgave 1 //////////////////////////////////////
+    ///// Oppgave 1 //////////////////////////////////////hei
     public static int maks(int[] a) {
         
 if (a.length < 1)
