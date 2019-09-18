@@ -155,9 +155,9 @@ ettersom den dominerende operasjonen utføres mindre.
         //throw new NotImplementedException();
 
         //Indeksene som er nå fra høyre og venstre
-        //venstre = 0, høyre = tall - 1
+        //venstre = 0, right = tall - 1
         int venstre = 0;
-        int høyre = a.length - 1;
+        int right = a.length - 1;
 
 
 
@@ -171,14 +171,15 @@ ettersom den dominerende operasjonen utføres mindre.
             }
             //finner partallene fra høyre side
             if ((a[i] % 2) == 0) {
-                høyre++;
+                right++;
                 parTall++;
             }
+            //finner oddetallene fra venstre side og bytter om plassene
             else {
                 //Bytter om plassene
                 int temp = a[venstre];
-                a[venstre] = a[høyre];
-                a[høyre] = temp;
+                a[venstre] = a[right];
+                a[right] = temp;
                 venstre++;
                 oddeTall++;
             }
@@ -192,42 +193,42 @@ ettersom den dominerende operasjonen utføres mindre.
         }
 
     //Bytter om plassene
-    public static void bytte_plass( int [] a, int venstre, int høyre){
+    public static void bytte_plass( int [] a, int venstre, int right){
         int temp = a[venstre];
-        a[venstre] = a[høyre];
-        a[høyre] = temp;
+        a[venstre] = a[right];
+        a[right] = temp;
     }
 
     //Lager en privat metode for kvikksortering
-    private static void kvikksortering_private(int[] a, int venstre, int høyre){
-        if(venstre >= høyre){
-            return;//Blir returnert dersom venstre er størr eller lik høyre
+    private static void kvikksortering_private(int[] a, int venstre, int right){
+        if(venstre >= right){
+            return;//Blir returnert dersom venstre er større eller lik hoyre(right)
         }
         //Bruker metoden sParter, og midtverdien
-        int midtverdi = sParter(a, venstre, høyre, ((venstre + høyre)/2));
-        kvikksortering_private(a, midtverdi + 1, høyre); //Intervallet a[midtverdi+1:h] blir sortert ([v:h])
+        int midtverdi = sParter(a, venstre, right, ((venstre + right)/2));
+        kvikksortering_private(a, midtverdi + 1, right); //Intervallet a[midtverdi+1:h] blir sortert ([v:h])
         kvikksortering_private(a, venstre, midtverdi - 1 ); //Intervallet a[v:midtverdi-1] blir sortert ([v:h])
     }
 
     //Lager en metode for kvikksorteing
-    public static void kvikksortering (int[] a, int fra_venstre, int til_høyre){ //venstre = fra, høyre = til - 1
-        kvikksortering_private(a, fra_venstre, til_høyre - 1); //fra_venstre = venstre, til_høyre - 1 = høyre
+    public static void kvikksortering (int[] a, int fra_venstre, int til_right){ //venstre = fra, høyre = til - 1
+        kvikksortering_private(a, fra_venstre, til_right - 1); //fra_venstre = venstre, til_høyre - 1 = høyre
     }
 
     //parter metode
-    private static int parter (int [] a, int venstre, int høyre, int skilleverdi){
-        //Når (venstre >=  høyre) så stopper det
+    private static int parter (int [] a, int venstre, int right, int skilleverdi){
+        //Når (venstre >=  right) så stopper det
         while (true){
-            while (venstre <= høyre && a[høyre] >= skilleverdi){
-                høyre--; //venstre er stoppeverdi for høyre
+            while (venstre <= right && a[right] >= skilleverdi){
+                right--; //venstre er stoppeverdi for høyre
             }
-            while (venstre <= høyre && a[venstre] >= skilleverdi) {
-                venstre++; //høyre er stoppeverdi for venstre
+            while (venstre <= right && a[venstre] >= skilleverdi) {
+                venstre++; //right er stoppeverdi for venstre
             }
 
             //bytter om a[h] og a[v]
-            if (venstre < høyre){
-                bytte_plass(a, venstre++, høyre--);
+            if (venstre < right){
+                bytte_plass(a, venstre++, right--);
             }
             else{
                 return venstre;
@@ -235,10 +236,10 @@ ettersom den dominerende operasjonen utføres mindre.
         }
     }
     //sParter metode
-    public static int sParter(int[] a, int venstre, int høyre, int indeks) {
-        bytte_plass(a,indeks, høyre); //Bytter skilleverdien a[indeks] helt bak
-        int posisjon = parter(a, venstre, høyre - 1, a[høyre]); //Sepererer a[v:h-1]
-        bytte_plass(a, posisjon, høyre);  //Bytter skilleverdien på rett plass
+    public static int sParter(int[] a, int venstre, int right, int indeks) {
+        bytte_plass(a,indeks, right); //Bytter skilleverdien a[indeks] helt bak
+        int posisjon = parter(a, venstre, right - 1, a[right]); //Sepererer a[v:h-1]
+        bytte_plass(a, posisjon, right);  //Bytter skilleverdien på rett plass
         return posisjon; //Skilleverdien sin posisjon blir levert
     }
 
@@ -346,7 +347,7 @@ ettersom den dominerende operasjonen utføres mindre.
                 }
             }
         }
-        //Returnerer m i psoisjon 0, nm i posisjon 1, og tm i posisjon 2
+        //Returnerer m i posisjon 0, nm i posisjon 1, og tm i posisjon 2
         return new int[] {m, nm, tm};
     }
 
