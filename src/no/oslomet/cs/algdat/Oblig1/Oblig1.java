@@ -17,8 +17,28 @@ public class Oblig1 {
 
     ///// Oppgave 1 //////////////////////////////////////
     public static int maks(int[] a) {
-        throw new NotImplementedException();
+        
+if (a.length < 1)
+throw new java.util.NoSuchElementException("Tabellen a er tom!");
+
+int m = 0; // hjelpeverdi til å sammenligne med
+
+for (int i=1;i<a.length;i++)
+{
+
+ 
+if (a[m] > a[i]) 
+bytt(a,i,m); // Tallene bytter plass
+    
+m++;
     }
+    
+ return a[a.length-1]; // returnerer den bakerste verdien
+        
+    }
+    
+public static void bytt(int[] a, int i, int j) {
+int temp = a[i]; a[i] = a[j]; a[j] = temp; }
 
     public static int ombyttinger(int[] a) {
         throw new NotImplementedException();
@@ -26,7 +46,28 @@ public class Oblig1 {
 
     ///// Oppgave 2 //////////////////////////////////////
     public static int antallUlikeSortert(int[] a) {
-        throw new NotImplementedException();
+        
+        if (a.length < 1)
+throw new java.util.NoSuchElementException("Tabellen a er tom!");
+
+int m = 0; 
+int j = 0;//Hjelpeverdi som øker med 1 hver gang det foretas en ombygging
+
+for (int i=1;i<a.length;i++)
+{
+    
+if (a[m] > a[i])
+    
+{bytt(a,i,m);
+    j++; }
+
+// j oppdateres    
+
+m++;
+    }
+    
+
+    return j; // returnerer antallet ombyttinger
     }
 
 
