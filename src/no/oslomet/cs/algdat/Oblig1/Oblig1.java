@@ -146,67 +146,102 @@ ettersom den dominerende operasjonen utføres mindre.
             };
 
 
-    ///// Oppgave 4 //////////////////////////////////////heihei
+    ///// Oppgave 4 //////////////////////////////////////
 
     //Lager metoden public static void delsortering (int[] a)
-    //Sorterer tabellen a
 
     public static void delsortering(int[] a) {
 
         //throw new NotImplementedException();
-        Arrays.sort(a); //Sorterer tabellen i stigende rekkefølge
 
         //Indeksene som er nå fra høyre og venstre
         //venstre = 0, høyre = tall - 1
         int venstre = 0;
         int høyre = a.length - 1;
 
+
+
         int oddeTall = 0; //Antall oddetall
-        int parTall = 0;
-        int antall = 0; //Antall delsorteringer
+        int parTall = 0; //Antall partall
 
         for (int i = 1; i < a.length; i++) { //Lager en for-løkke, og starter med i = 1
-            if ((a[i] & 1) != 0) //Hvis a[i] for alle array elementene og 1 er ikke lik 0
-                antall++; //Teller opp delsorteringen
 
-            //Finner partallene fra høyre siden
-            while ((venstre < høyre) && a[høyre] % 2 == 0) {
-                høyre--;
+            if (parTall == 0 || oddeTall == 0) {
+                kvikksortering_private(a, 0, a.length - 1);
             }
-
-            //Finner oddetallene fra venstre siden
-            while (a[venstre] % 2 != 0) {
-                oddeTall++;
-                venstre++;
+            //finner partallene fra høyre side
+            if ((a[i] % 2) == 0) {
+                høyre++;
+                parTall++;
             }
-
-            //Bytter om a[høyre] og a[venstre]
-            //Bytter alle  oddetallene til venstre side og alle partallene til høyre
-            if (venstre < høyre) {
+            else {
+                //Bytter om plassene
                 int temp = a[venstre];
                 a[venstre] = a[høyre];
                 a[høyre] = temp;
+                venstre++;
+                oddeTall++;
             }
+
         }
-        //Sorterer partallene i stigende rekkefølge
-        kvikksortering(a, oddeTall, a.length);
+            //Sorterer partallene i stigende rekkefølge
+            kvikksortering(a, oddeTall, a.length);
 
-        //Sorterer oddetallene i stigende rekkefølge
-        kvikksortering(a,0, oddeTall);
-    }
-    //Bruker samme  type ide som koden fra: https://www.cs.hioa.no/~ulfu/appolonius/kildekode/Tabell.html
+            //Sorterer oddetallene i stigende rekkefølge
+            kvikksortering(a, 0, oddeTall);
+        }
 
-
+    //Bytter om plassene
     public static void bytte_plass( int [] a, int venstre, int høyre){
         int temp = a[venstre];
         a[venstre] = a[høyre];
         a[høyre] = temp;
     }
 
-    //Lager metode for kvikksortering - fra, til i sortering
-   // public static void kvikksortering(int[] a, int fra, int til){
-    //    kvikksortering_1(a, fra , til);
-   // }
+    //Lager en privat metode for kvikksortering
+    private static void kvikksortering_private(int[] a, int venstre, int høyre){
+        if(venstre >= høyre){
+            return;//Blir returnert dersom venstre er størr eller lik høyre
+        }
+        //Bruker metoden sParter, og midtverdien
+        int midtverdi = sParter(a, venstre, høyre, ((venstre + høyre)/2));
+        kvikksortering_private(a, midtverdi + 1, høyre); //Intervallet a[midtverdi+1:h] blir sortert ([v:h])
+        kvikksortering_private(a, venstre, midtverdi - 1 ); //Intervallet a[v:midtverdi-1] blir sortert ([v:h])
+    }
+
+    //Lager en metode for kvikksorteing
+    public static void kvikksortering (int[] a, int fra_venstre, int til_høyre){ //venstre = fra, høyre = til - 1
+        kvikksortering_private(a, fra_venstre, til_høyre - 1); //fra_venstre = venstre, til_høyre - 1 = høyre
+    }
+
+    //parter metode
+    private static int parter (int [] a, int venstre, int høyre, int skilleverdi){
+        //Når (venstre >=  høyre) så stopper det
+        while (true){
+            while (venstre <= høyre && a[høyre] >= skilleverdi){
+                høyre--; //venstre er stoppeverdi for høyre
+            }
+            while (venstre <= høyre && a[venstre] >= skilleverdi) {
+                venstre++; //høyre er stoppeverdi for venstre
+            }
+
+            //bytter om a[h] og a[v]
+            if (venstre < høyre){
+                bytte_plass(a, venstre++, høyre--);
+            }
+            else{
+                return venstre;
+            }
+        }
+    }
+    //sParter metode
+    public static int sParter(int[] a, int venstre, int høyre, int indeks) {
+        bytte_plass(a,indeks, høyre); //Bytter skilleverdien a[indeks] helt bak
+        int posisjon = parter(a, venstre, høyre - 1, a[høyre]); //Sepererer a[v:h-1]
+        bytte_plass(a, posisjon, høyre);  //Bytter skilleverdien på rett plass
+        return posisjon; //Skilleverdien sin posisjon blir levert
+    }
+
 
     ///// Oppgave 5 //////////////////////////////////////
     public static void rotasjon(char[] a) {
@@ -240,14 +275,14 @@ ettersom den dominerende operasjonen utføres mindre.
     ///// Oppgave 8 //////////////////////////////////////
     public static int[] indekssortering(int[] a) {
 
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
 
-        int [] indeks = new int[array.length];
-        int [] a = new int [array.length];
+        int [] index = new int[a.length];
+        int [] b = new int [a.length];
 
-        for (int i=0; i<array.length; i++){
-            a[i] = array[i];
-            indeks[i]= i;
+        for (int i=0; i<a.length; i++){
+            a[i] = a[i];
+            index[i]= i;
         }
 
         for (int i = 0; i < a.length - 1; i++)
@@ -268,15 +303,13 @@ ettersom den dominerende operasjonen utføres mindre.
             a[i] = a[m];
             a[m] = temp;
 
-            int temp1 = indeks[i];
-            indeks[i] = indeks[m];
-            indeks[m] = temp1;
+            int temp1 = index[i];
+            index[i] = index[m];
+            index[m] = temp1;
 
         }
 
-        return indeks;
-
-
+        return index;
 
     }
 
@@ -286,12 +319,11 @@ ettersom den dominerende operasjonen utføres mindre.
 
         if(a.length<3) throw new NoSuchElementException(" Tabellen har mindre enn 3");
         int tabell = a.length; //tabellens lengde
-        //minst tre verdi
 
 
         //Sorterer verdiene for å vite hvem som er minst
         int [] c = new int [3];
-        //int[] indeks = indekssortering(c);
+
 
         //Tre hjelpevariabler
         int m = 0; //minste verdi
