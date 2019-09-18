@@ -162,6 +162,7 @@ ettersom den dominerende operasjonen utføres mindre.
         int høyre = a.length - 1;
 
         int oddeTall = 0; //Antall oddetall
+        int parTall = 0;
         int antall = 0; //Antall delsorteringer
 
         for (int i = 1; i < a.length; i++) { //Lager en for-løkke, og starter med i = 1
@@ -191,17 +192,21 @@ ettersom den dominerende operasjonen utføres mindre.
         kvikksortering(a, oddeTall, a.length);
 
         //Sorterer oddetallene i stigende rekkefølge
-        kvikksortering(a, 0, oddeTall);
+        kvikksortering(a,0, oddeTall);
     }
-    public static void kvikksortering_1 (int[] a, int v, int h) {
-        if (v >= h){
-            return;
-        }
+    //Bruker samme  type ide som koden fra: https://www.cs.hioa.no/~ulfu/appolonius/kildekode/Tabell.html
+
+
+    public static void bytte_plass( int [] a, int venstre, int høyre){
+        int temp = a[venstre];
+        a[venstre] = a[høyre];
+        a[høyre] = temp;
     }
+
     //Lager metode for kvikksortering - fra, til i sortering
-    public static void kvikksortering(int[] a, int fra, int til){
-        kvikksortering_1(a, fra , til);
-    }
+   // public static void kvikksortering(int[] a, int fra, int til){
+    //    kvikksortering_1(a, fra , til);
+   // }
 
     ///// Oppgave 5 //////////////////////////////////////
     public static void rotasjon(char[] a) {
@@ -241,13 +246,14 @@ ettersom den dominerende operasjonen utføres mindre.
     ///// Oppgave 9 //////////////////////////////////////
     public static int[] tredjeMin(int[] a) {
 
+        if(a.length<3) throw new NoSuchElementException(" Tabellen har mindre enn 3");
         int tabell = a.length; //tabellens lengde
         //minst tre verdi
-        if (tabell < 3 ) throw new IllegalArgumentException("a.length(" + tabell + ") < 3!");
+
 
         //Sorterer verdiene for å vite hvem som er minst
         int [] c = new int [3];
-        int[] indeks = indekssortering(c);
+        //int[] indeks = indekssortering(c);
 
         //Tre hjelpevariabler
         int m = 0; //minste verdi
