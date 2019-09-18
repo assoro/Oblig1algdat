@@ -239,7 +239,45 @@ ettersom den dominerende operasjonen utføres mindre.
 
     ///// Oppgave 8 //////////////////////////////////////
     public static int[] indekssortering(int[] a) {
+
         throw new NotImplementedException();
+
+        int [] indeks = new int[array.length];
+        int [] a = new int [array.length];
+
+        for (int i=0; i<array.length; i++){
+            a[i] = array[i];
+            indeks[i]= i;
+        }
+
+        for (int i = 0; i < a.length - 1; i++)
+        {
+            int m = i;             // indeks til den minste (føreløpig)
+            int  minverdi = a[i];  // verdien til den minste(føreløpig)
+
+            for (int j = i + 1; j < a.length; j++)
+            {
+                if (a[j] < minverdi)
+                {
+                    minverdi = a[j];  // ny minste verdi
+                    m = j;            // indeksen til ny minste verdi
+                }
+            }
+            // bytter om a[i] og a[m]
+            int temp = a[i];
+            a[i] = a[m];
+            a[m] = temp;
+
+            int temp1 = indeks[i];
+            indeks[i] = indeks[m];
+            indeks[m] = temp1;
+
+        }
+
+        return indeks;
+
+
+
     }
 
 
