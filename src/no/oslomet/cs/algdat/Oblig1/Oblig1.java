@@ -393,13 +393,6 @@ ettersom den dominerende operasjonen utføres mindre.
 
         return true;
 
-
-
-      //  throw new NotImplementedException();
     }
-
-    /*public static boolean inneholdt(String a, String b) {
-        throw new NotImplementedException();
-    }*/
 
 }  // Oblig1
