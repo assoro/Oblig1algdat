@@ -2,6 +2,12 @@ package no.oslomet.cs.algdat.Oblig1;
 
 ////// Løsningsforslag Oblig 1 - 2019 ////////////////////////
 
+//Linda Kadrijaj, S333751, s333751@oslomet.no
+//Poorani Nagendran s331411, s331411@oslomet.no
+//Rahujan Ravindran s331399, s331399@oslomet.no
+//Asso Rostampoor s330533, s330533@oslomet.no
+//Mohammad Awais Hameed, s331375, s331375@oslomet.no
+
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Arrays;
@@ -160,37 +166,38 @@ ettersom den dominerende operasjonen utføres mindre.
         int right = a.length - 1;
 
 
+        for (int i = 0; i < a.length; i++) { //Lager en for-løkke, og starter med i = 1
 
-        int oddeTall = 0; //Antall oddetall
-        int parTall = 0; //Antall partall
-
-        for (int i = 1; i < a.length; i++) { //Lager en for-løkke, og starter med i = 1
-
-            if (parTall == 0 || oddeTall == 0) {
-                kvikksortering_private(a, 0, a.length - 1);
+            //Finner partallene fra høyre siden
+            while ((right >= 0) && (a[right] & 1) == 0) {
+                right--;
             }
-            //finner partallene fra høyre side
-            if ((a[i] % 2) == 0) {
-                right++;
-                parTall++;
-            }
-            //finner oddetallene fra venstre side og bytter om plassene
-            else {
-                //Bytter om plassene
-                int temp = a[venstre];
-                a[venstre] = a[right];
-                a[right] = temp;
+
+            //Finner oddetallene fra venstre siden
+            while ((venstre < a.length) && (a[venstre] & 1) != 0) {
                 venstre++;
-                oddeTall++;
+            }
+            while (true){
+                if (venstre < right){
+                    //Bytter om plassene
+                    int temp = a[venstre];
+                    a[venstre] = a[right];
+                    a[right] = temp;
+                    venstre++;
+                    right--;
+                }
+                else break;
+                while ((a[right] & 1) == 0) right --;
+                while ((a[venstre] & 1) != 0) venstre++;
             }
 
         }
-            //Sorterer partallene i stigende rekkefølge
-            kvikksortering(a, oddeTall, a.length);
+        //Sorterer partallene i stigende rekkefølge
+        kvikksortering(a, venstre, a.length);
 
-            //Sorterer oddetallene i stigende rekkefølge
-            kvikksortering(a, 0, oddeTall);
-        }
+        //Sorterer oddetallene i stigende rekkefølge
+        kvikksortering(a, 0, venstre);
+    }
 
     //Bytter om plassene
     public static void bytte_plass( int [] a, int venstre, int right){
@@ -222,7 +229,7 @@ ettersom den dominerende operasjonen utføres mindre.
             while (venstre <= right && a[right] >= skilleverdi){
                 right--; //venstre er stoppeverdi for høyre
             }
-            while (venstre <= right && a[venstre] >= skilleverdi) {
+            while (venstre <= right && a[venstre] < skilleverdi) {
                 venstre++; //right er stoppeverdi for venstre
             }
 
@@ -386,13 +393,6 @@ ettersom den dominerende operasjonen utføres mindre.
 
         return true;
 
-
-
-        throw new NotImplementedException();
-    }
-
-    public static boolean inneholdt(String a, String b) {
-        throw new NotImplementedException();
     }
 
 }  // Oblig1
