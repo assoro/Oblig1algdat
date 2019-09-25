@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-<<<<<<< Updated upstream
-      <module fileurl="file://$PROJECT_DIR$/NyAlgdatOblig1.iml" filepath="$PROJECT_DIR$/NyAlgdatOblig1.iml" />
-=======
-      <module fileurl="file://$PROJECT_DIR$/Oblig1.iml" filepath="$PROJECT_DIR$/Oblig1.iml" />
->>>>>>> Stashed changes
+      <module fileurl="file://$PROJECT_DIR$/Oblig1AlgDat.iml" filepath="$PROJECT_DIR$/Oblig1AlgDat.iml" />
     </modules>
   </component>
 </project>
