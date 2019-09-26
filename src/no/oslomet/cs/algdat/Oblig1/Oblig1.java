@@ -292,7 +292,29 @@ ettersom den dominerende operasjonen utføres mindre.
 
     /// 7b) Hei
     public static String flett(String... s) {
-        throw new NotImplementedException();
+        String flett = "";
+
+        if (s.length != 0) {
+            int sLengde= s[0].length();
+
+            for (int i = 0; i < s.length - 1; ++i) {
+
+                if (s[i].length() <= s[i + 1].length()) {
+                    sLengde += s[i + 1].length();
+                }
+            }
+
+            for (int i = 0; i < sLengde; ++i) {
+
+                for (int j = 0; j < s.length; ++j) {
+                    if (s[j].length() > i) {
+                        flett += s[j].charAt(i);
+                    }
+                }
+            }
+        }
+
+        return flett;
     }
 
     ///// Oppgave 8 //////////////////////////////////////
