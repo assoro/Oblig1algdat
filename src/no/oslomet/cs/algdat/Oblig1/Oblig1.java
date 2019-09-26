@@ -272,8 +272,24 @@ ettersom den dominerende operasjonen utføres mindre.
     ///// Oppgave 7 //////////////////////////////////////
     /// 7a)
     public static String flett(String s, String t) {
-        throw new NotImplementedException();
+        if (s == "" && t == "") {
+            System.out.println("Tomme strenger!");
+        }
+
+        int minste = Math.min(s.length(), t.length());
+        StringBuilder flettet = new StringBuilder();
+
+        for (int i = 0; i < minste; i++){
+            char[] a1 = s.toCharArray();
+            char[] a2 = t.toCharArray();
+            flettet.append(a1[i]).append(a2[i]);
+        }
+
+        flettet.append(s.substring(minste)).append(t.substring(minste));
+
+        return flettet.toString();
     }
+
 
     /// 7b)
     public static String flett(String... s) {
