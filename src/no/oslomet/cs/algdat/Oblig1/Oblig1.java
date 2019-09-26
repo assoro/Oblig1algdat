@@ -161,10 +161,9 @@ ettersom den dominerende operasjonen utføres mindre.
         //throw new NotImplementedException();
 
         //Indeksene som er nå fra høyre og venstre
-        //venstre = 0, right = tall - 1
+        //venstre = 0, right = a.length - 1
         int venstre = 0;
         int right = a.length - 1;
-
 
         for (int i = 0; i < a.length; i++) { //Lager en for-løkke, og starter med i = 1
 
@@ -291,7 +290,7 @@ ettersom den dominerende operasjonen utføres mindre.
     }
 
 
-    /// 7b)
+    /// 7b) Hei
     public static String flett(String... s) {
         throw new NotImplementedException();
     }
@@ -345,14 +344,13 @@ ettersom den dominerende operasjonen utføres mindre.
         int tabell = a.length; //tabellens lengde
 
 
-        //Sorterer verdiene for å vite hvem som er minst
-        int [] c = new int [3];
-
+        int [] returnerArray = {0,1,2};
+        returnerArray = indekssortering(returnerArray);
 
         //Tre hjelpevariabler
-        int m = 0; //minste verdi
-        int nm = 1; //nest minste verdi
-        int tm = 2; //tredje minste verdi
+        int m = returnerArray[0]; //minste verdi
+        int nm = returnerArray[1]; //nest minste verdi
+        int tm = returnerArray[2]; //tredje minste verdi
 
         //Tre hjelpevariabler
         int minst = a[m];
