@@ -13,6 +13,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 
+import static javax.swing.table.DefaultTableModel.gcd;
 import static no.oslomet.cs.algdat.Oblig1.Oblig1.kvikksortering;
 
 
@@ -278,8 +279,16 @@ ettersom den dominerende operasjonen utføres mindre.
         }
 
         //hvis vi ønker a rotere et veldig stort tall
-        //bruker man som regel gcd for å finne hvor mange steg vi skal flytteå.
-        int antallFlytt = gcd(aLengde, b);
+        //bruker man som regel gcd for å finne hvor mange steg vi skal flytte på.
+        int gcd = 1;
+        for(int i = 1; i <= aLengde && i <= b; ++i) {
+
+            // Checks if i is factor of both integers
+            if (aLengde % i == 0 && b % i == 0) {
+                gcd = i;
+            }
+        }
+        int antallFlytt = gcd;
 
         //i for - løkn bruker vi gcd til rotasjonen
         for (int k = 0; k < antallFlytt; k++) {
@@ -303,8 +312,6 @@ ettersom den dominerende operasjonen utføres mindre.
             a[k + b] = variabel;
         }
     }
-
-
 
     ///// Oppgave 7 //////////////////////////////////////
     /// 7a)
