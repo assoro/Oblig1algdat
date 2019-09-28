@@ -191,7 +191,7 @@ ettersom den dominerende operasjonen utføres mindre.
             }
 
         }
-        //Sorterer partallene i stigende rekkefølge
+         //Sorterer partallene i stigende rekkefølge
         kvikksortering(a, venstre, a.length);
 
         //Sorterer oddetallene i stigende rekkefølge
@@ -260,12 +260,12 @@ ettersom den dominerende operasjonen utføres mindre.
             }
             a[0]=temp;
         }
-
     }
 
     ///// Oppgave 6 //////////////////////////////////////
     public static void rotasjon(char[] a, int k) {
-        throw new NotImplementedException();
+
+
     }
 
     ///// Oppgave 7 //////////////////////////////////////
@@ -292,29 +292,34 @@ ettersom den dominerende operasjonen utføres mindre.
 
     /// 7b) Hei
     public static String flett(String... s) {
+
+        //definert en tom (tilgjengelig) streng
         String flett = "";
 
-        if (s.length != 0) {
-            int sLengde= s[0].length();
+        //sjekker om parameterstrengen er tom
+        if (s.length!=0) {
+            int sLengde = s[0].length();
 
-            for (int i = 0; i < s.length - 1; ++i) {
+            //finner den lengste verdien
+            for (int i = 0; i < s.length-1; ++i) {
 
-                if (s[i].length() <= s[i + 1].length()) {
-                    sLengde += s[i + 1].length();
+                if (s[i].length() <= s[i+1].length()) {
+                    sLengde += s[i+1].length();
                 }
             }
 
+            //dobbel for-løkke for å legge til verdi fra hver streng til alle strengene er tomme
             for (int i = 0; i < sLengde; ++i) {
-
                 for (int j = 0; j < s.length; ++j) {
                     if (s[j].length() > i) {
-                        flett += s[j].charAt(i);
+                        flett+= s[j].charAt(i);
                     }
                 }
             }
         }
-
+        //returnerer strengen vi definerte som ny streng fra parameterstrengene x antall
         return flett;
+
     }
 
     ///// Oppgave 8 //////////////////////////////////////
