@@ -263,10 +263,48 @@ ettersom den dominerende operasjonen utføres mindre.
     }
 
     ///// Oppgave 6 //////////////////////////////////////
-    public static void rotasjon(char[] a, int k) {
+    public static void rotasjon(char[] a, int b) {
+        int aLengde = a.length;
+
+        //sjekker om lengden på a er mindre enn 2,
+        //hvis den er det vil ingen rotasjon skje
+        if (aLengde < 2) {
+            return;
+        }
+
+        //sjekker om verdien d i indeks er negativt
+        if ((b %= aLengde) < 0) {
+            b = b + aLengde;
+        }
+
+        //hvis vi ønker a rotere et veldig stort tall
+        //bruker man som regel gcd for å finne hvor mange steg vi skal flytteå.
+        int antallFlytt = gcd(aLengde, b);
+
+        //i for - løkn bruker vi gcd til rotasjonen
+        for (int k = 0; k < antallFlytt; k++) {
+            char variabel = a[k];
+
+            for (int i = k - b, j = k; i != k; i = i - b){
 
 
+                if (i < 0) {
+                    //sjekker fortegnet til i
+                    i = i + aLengde;
+
+                    //kopierer j
+                    a[j] = a[i];
+
+                    //oppdaterer j
+                    j = i;
+                }
+            }
+            //legger tilbak verdien i den midlertidige variabelen vi definerte først
+            a[k + b] = variabel;
+        }
     }
+
+
 
     ///// Oppgave 7 //////////////////////////////////////
     /// 7a)
