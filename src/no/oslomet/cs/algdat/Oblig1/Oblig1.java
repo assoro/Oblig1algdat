@@ -13,7 +13,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 
-import static javax.swing.table.DefaultTableModel.gcd;
+//import static javax.swing.table.DefaultTableModel.gcd;
 import static no.oslomet.cs.algdat.Oblig1.Oblig1.kvikksortering;
 
 
@@ -177,6 +177,7 @@ ettersom den dominerende operasjonen utføres mindre.
             while ((venstre < a.length) && (a[venstre] & 1) != 0) {
                 venstre++;
             }
+            //Bytter om plassene
             while (true){
                 if (venstre < right){
                     //Bytter om plassene
@@ -187,8 +188,8 @@ ettersom den dominerende operasjonen utføres mindre.
                     right--;
                 }
                 else break;
-                while ((a[right] & 1) == 0) right --;
-                while ((a[venstre] & 1) != 0) venstre++;
+                while ((a[right] & 1) == 0) right --; //partallene fra høyre siden
+                while ((a[venstre] & 1) != 0) venstre++; //oddetallene fra vendtre siden
             }
 
         }
@@ -233,7 +234,7 @@ ettersom den dominerende operasjonen utføres mindre.
                 venstre++; //right er stoppeverdi for venstre
             }
 
-            //bytter om a[h] og a[v]
+            //bytter om a[h] og a[v], altså plassene
             if (venstre < right){
                 bytte_plass(a, venstre++, right--);
             }
@@ -335,7 +336,7 @@ ettersom den dominerende operasjonen utføres mindre.
     }
 
 
-    /// 7b) Hei
+    /// 7b)
     public static String flett(String... s) {
 
         //definert en tom (tilgjengelig) streng
@@ -414,27 +415,28 @@ ettersom den dominerende operasjonen utføres mindre.
 
         if(a.length<3) throw new NoSuchElementException(" Tabellen har mindre enn 3");
         int tabell = a.length; //tabellens lengde
+        
+        
+        int [] tabell1 = indekssortering(Arrays.copyOf(a,3));
 
-
-        int [] returnerArray = {0,1,2};
-        returnerArray = indekssortering(returnerArray);
-
-        //Tre hjelpevariabler
-        int m = returnerArray[0]; //minste verdi
-        int nm = returnerArray[1]; //nest minste verdi
-        int tm = returnerArray[2]; //tredje minste verdi
+        //Tre hjelpevariabler for tre verdier
+        int m = tabell1[0]; //minste verdi
+        //nest minste verdi
+        int nm = tabell1[1];
+        int tm = tabell1[2]; //tredje minste verdi
 
         //Tre hjelpevariabler
         int minst = a[m];
         int nestminst = a[nm];
         int tredjeminst = a[tm];
 
-        for (int i = 3; i < tabell; i++) { ////Lager en for-løkke
+        for (int i = 3; i < tabell; i++) { //Lager en for-løkke
             if (a[i] < tredjeminst) {
+                tredjeminst = nestminst;
+
                 if (a[i] < nestminst) {
+                    nestminst = minst;
                     if (a[i] < minst) {
-                        tredjeminst = nestminst;
-                        nestminst = minst;
                         minst = i;
                     }
                 }
