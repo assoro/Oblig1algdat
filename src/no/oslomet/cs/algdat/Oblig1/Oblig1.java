@@ -420,10 +420,9 @@ ettersom den dominerende operasjonen utføres mindre.
         int [] tabell1 = indekssortering(Arrays.copyOf(a,3));
 
         //Tre hjelpevariabler for tre verdier
-        int m = tabell1[0]; //minste verdi
-        //nest minste verdi
-        int nm = tabell1[1];
-        int tm = tabell1[2]; //tredje minste verdi
+        int m = tabell1[0]; //minste verdi - m tabell
+        int nm = tabell1[1]; // nest minste verdi - nm tabell
+        int tm = tabell1[2]; //tredje minste verdi - tm tabell
 
         //Tre hjelpevariabler
         int minst = a[m];
@@ -436,9 +435,11 @@ ettersom den dominerende operasjonen utføres mindre.
 
                 if (a[i] < nestminst) {
                     nestminst = minst;
+
                     if (a[i] < minst) {
                         minst = i;
                     }
+
                 }
             }
         }
