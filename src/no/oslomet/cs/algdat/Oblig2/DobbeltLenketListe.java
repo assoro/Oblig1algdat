@@ -352,39 +352,36 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         @Override
         public void remove(){
 
-            if (!fjernOK) {
+            if (!fjernOK) { //Hvis ikke fjernOK blir kalt
                 throw new IllegalStateException("Ikke gyldig tilstand!");
             }
-            else if (endringer != iteratorendringer) {
+            else if (endringer != iteratorendringer) { //Hvis ikke endringene er like
                 throw new ConcurrentModificationException("Antall endringer (" + endringer + ") er ikke lik iteratorEndringer (" + iteratorendringer + ")");
 
             }
 
-            fjernOK = false;
+            fjernOK = false; //alltid false
 
-            if (antall == 1) {
-                //null ut hode og hale???
-                hode = hale = null;
+            if (antall == 1) { //Hvis antall er lik 1, dvs den eneste noden som skal fjernes
+                hode = hale = null; //nuller ut
             }
 
-            else if(denne == null) {
-                //hale må oppdateres
-                hale = hale.forrige;
-                hale.neste = null;
+            else if(denne == null) { //Hvis den siste fjernes
+                hale = hale.forrige; //Hale oppdateres slik at forrige node blir satt til neste hale
+                hale.neste = null; //nuller ut den siste node som var hale før oppdatering.
             }
 
-            else if (denne.forrige == hode) {
-                //hode må oppdateres
-                hode = hode.neste;
-                hode.forrige = null;
+            else if (denne.forrige == hode) { //Hvis første fjernes
+                hode = hode.neste; //må hode oppdateres
+                hode.forrige = null; //nuller ut første node som var hode før oppdatering
             }
-            else {
+            else { //hvis node inne i listen fjernes, må pekere oppdateres
                 denne.forrige = denne.forrige.forrige;
                 denne.forrige.neste = denne;
             }
 
-            antall--;
-            endringer++;
+            antall--; //reduseres fordi noder fjernes fra listen
+            endringer++; //endringer i listen økes
             iteratorendringer++;
 
         }
