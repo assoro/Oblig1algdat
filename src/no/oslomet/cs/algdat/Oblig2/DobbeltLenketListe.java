@@ -37,11 +37,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int antall;            // antall noder i listen
     private int endringer;         // antall endringer i listen
 
-    private Node<T>finnNode(int indeks){
-        Node<T> returnereNode; // Returnere noden med den gitte indeksen/posisjonen.
+    private Node<T> finnNode(int indeks){
+        Node<T> returnereNode;
 
-        // Dersom indeksen er mindre enn ​antall / 2, så ​skal letingen etter noden starte fra hode og
-        // gå mot høyre ved hjelp av neste-pekere.
+        /* Dersom indeksen er mindre enn ​antall / 2, så ​skal letingen etter noden starte fra hode og
+        gå mot høyre ved hjelp av neste-pekere */
         if (indeks < antall/2){
             returnereNode = hode; // Starter fra hode
             for (int i = 0; i < indeks; i++){ // Går mot høyre ved hjelp av neste-pekere
@@ -55,14 +55,34 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 returnereNode = returnereNode.forrige;
             }
         }
-        return returnereNode;
-    }
+
+        return returnereNode; // Returnerer noden med den gitte indeksen/posisjonen.
+    } //Slutt metode finnNode
+
+    /* Hvis indeksene fra og til ikke er lovlige, så kastes det unntak i metoden fratilKontroll ().
+    Legger metoden inn som en privat metode i klassen DobbeltLenketListe​ og bytter ut
+    ArrayIndexOutOfBoundsException​ med ​IndexOutOfBoundsException​ siden vi ikke har noen tabell (array) her.
+    Bytter også ut ordet ​tablengde med ordet antall. */
+
+    //Metoden sjekker om intervallet [fra:til> er lovlig
+    private void fratilkontroll (int antall, int fra, int til){
+
+        if (til > antall){ // Til er utenfor tabellen
+            throw new IndexOutOfBoundsException( "til(" +til+ ") > antall" +antall+ ")");
+        }
+        if (fra < 0){ //Fra er negativ
+            throw new IndexOutOfBoundsException( "fra(" +fra+ ") < 0 er negativ");
+        }
+        if (fra > til){ //Fra er større enn til
+            throw new IndexOutOfBoundsException( "fra(" +fra+ ") > til" +til+ ")");
+        }
+
+    } //Slutt metode fratilKontroll
 
     public DobbeltLenketListe() {
         hode = hale = null;
         antall = 0;
         endringer = 0;
-
     }
 
     public DobbeltLenketListe(T[] a) {
@@ -73,7 +93,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             throw new NullPointerException("Tabellen a er null!");
         }
 
-        //
         hode = hale = new Node<>(null); // dette vil da være en midlertidig node
 
         for (T verdi : a) {
@@ -90,9 +109,22 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             (hode = hode.neste).forrige = null; // fjerner den midlertidige noden
         }
     }
-
+    // Lager metoden ​Liste<T> subliste(int fra, int til)
     public Liste<T> subliste(int fra, int til){
-        throw new NotImplementedException();
+
+        //Lager en ny liste
+        DobbeltLenketListe <T> subliste = new DobbeltLenketListe<>();
+
+        //Sjekker om indeksene fra og til er lovlige på metoden fratilKontroll()
+        fratilkontroll(antall, fra, til);
+
+        Node<T> returnereNode = finnNode(fra);
+        for (int i = fra; i < til; i++){
+            subliste.leggInn(returnereNode.verdi);
+            returnereNode = returnereNode.neste;
+
+        }
+        return subliste; //Metoden returnerer listen  som inneholder verdiene fra intervallet [fra:til>
     }
 
     @Override
