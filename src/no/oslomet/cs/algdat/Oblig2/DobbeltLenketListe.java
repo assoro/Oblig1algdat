@@ -124,6 +124,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             returnereNode = returnereNode.neste;
 
         }
+        //
         return subliste; //Metoden returnerer listen  som inneholder verdiene fra intervallet [fra:til>
     }
 
