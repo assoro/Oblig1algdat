@@ -9,12 +9,10 @@ package no.oslomet.cs.algdat.Oblig1;
 //Mohammad Awais Hameed, s331375, s331375@oslomet.no
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-import sun.text.bidi.BidiBase;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
-
-//import static javax.swing.table.DefaultTableModel.gcd;
 import static no.oslomet.cs.algdat.Oblig1.Oblig1.kvikksortering;
 
 
@@ -25,52 +23,51 @@ public class Oblig1 {
 
     ///// Oppgave 1 //////////////////////////////////////hei
     public static int maks(int[] a) {
+        
+if (a.length < 1)
+throw new java.util.NoSuchElementException("Tabellen a er tom!");
 
-        if (a.length < 1)
-            throw new java.util.NoSuchElementException("Tabellen a er tom!");
+int m = 0; // hjelpeverdi til å sammenligne med
 
-        int m = 0; // hjelpeverdi til å sammenligne med
+for (int i=1;i<a.length;i++)
+{
 
-        for (int i = 1; i < a.length; i++) {
-
-
-            if (a[m] > a[i])
-                bytt(a, i, m); // Tallene bytter plass
-
-            m++;
-        }
-
-        return a[a.length - 1]; // returnerer den bakerste verdien
-
+ 
+if (a[m] > a[i]) 
+bytt(a,i,m); // Tallene bytter plass
+    
+m++;
     }
-
-    public static void bytt(int[] a, int i, int j) {
-        int temp = a[i];
-        a[i] = a[j];
-        a[j] = temp;
+    
+ return a[a.length-1]; // returnerer den bakerste verdien
+        
     }
+    
+public static void bytt(int[] a, int i, int j) {
+int temp = a[i]; a[i] = a[j]; a[j] = temp; }
 
     public static int ombyttinger(int[] a) {
-        if (a.length < 1)
-            throw new java.util.NoSuchElementException("Tabellen a er tom!");
+            if (a.length < 1)
+throw new java.util.NoSuchElementException("Tabellen a er tom!");
 
-        int m = 0;
-        int j = 0;//Hjelpeverdi som øker med 1 hver gang det foretas en ombygging
+int m = 0; 
+int j = 0;//Hjelpeverdi som øker med 1 hver gang det foretas en ombygging
 
-        for (int i = 1; i < a.length; i++) {
-
-            if (a[m] > a[i]) {
-                bytt(a, i, m);
-                j++;
-            }
+for (int i=1;i<a.length;i++)
+{
+    
+if (a[m] > a[i])
+    
+{bytt(a,i,m);
+    j++; }
 
 // j oppdateres    
 
-            m++;
-        }
+m++;
+    }
+    
 
-
-        return j; // returnerer antallet ombyttinger
+    return j; // returnerer antallet ombyttinger
     }
     
     /*
@@ -96,34 +93,33 @@ ettersom den dominerende operasjonen utføres mindre.
 
     ///// Oppgave 2 //////////////////////////////////////
     public static int antallUlikeSortert(int[] a) {
+        
+        for (int i=1;i<a.length;i++) 
+    if (a[i-1] > a[i]) 
+    throw new IllegalStateException("Tabellen er ikke sortert i stigende rekkfølge");
 
-        for (int i = 1; i < a.length; i++)
-            if (a[i - 1] > a[i])
-                throw new IllegalStateException("Tabellen er ikke sortert i stigende rekkfølge");
-
-        int k = 0;//Hjelpevariabel som teller antallet ulike verdier
-
-        for (int i = 0; i < a.length; i++) {
+    int k =0;//Hjelpevariabel som teller antallet ulike verdier
+ 
+     for(int i=0;i<a.length;i++){
             boolean lik = false;//boolean-variabel som settes til true når to verdier er like 
-            for (int j = 0; j < i; j++) {
-                if (a[i] == a[j]) {
+            for(int j=0;j<i;j++){
+                if(a[i] == a[j]){
                     lik = true;
                     break;
                 }
             }
-
-            if (!lik) { //Dersom to verdier ikke er like skal k økes med 1
-
-                k++;
+            
+            if(!lik){ //Dersom to verdier ikke er like skal k økes med 1
+                
+               k++; 
             }
-
-
-        }
-        ;
-
-        return k;//Returnerer k
-
-
+                
+   
+    };
+ 
+ return k;//Returnerer k
+        
+    
     }
 
 
@@ -133,30 +129,27 @@ ettersom den dominerende operasjonen utføres mindre.
         //throw new NotImplementedException();
 
 
-        int k = 0;//Hjelpevariabel som teller antallet ulike verdier
+                int k =0;//Hjelpevariabel som teller antallet ulike verdier
 
-        for (int i = 0; i < a.length; i++) {
-            boolean lik = false;//boolean-variabel som settes til true når to verdier er like
-            for (int j = 0; j < i; j++) {
-                if (a[i] == a[j]) {
-                    lik = true;
-                    break;
-                }
-            }
+                for(int i=0;i<a.length; i++){
+                    boolean lik = false;//boolean-variabel som settes til true når to verdier er like
+                    for(int j=0;j<i;j++){
+                        if(a[i] == a[j]){
+                            lik = true;
+                            break;
+                        }
+                    }
 
-            if (!lik) { //Dersom to verdier ikke er like skal k økes med 1
+                    if(!lik){ //Dersom to verdier ikke er like skal k økes med 1
 
-                k++;
-            }
+                        k++;
+                    }
 
 
-        }
-        ;
+                };
 
-        return k;//Returnerer k
-    }
-
-    ;
+                return k;//Returnerer k
+            };
 
 
     ///// Oppgave 4 //////////////////////////////////////
@@ -183,22 +176,22 @@ ettersom den dominerende operasjonen utføres mindre.
             while ((venstre < a.length) && (a[venstre] & 1) != 0) {
                 venstre++;
             }
-            //Bytter om plassene
-            while (true) {
-                if (venstre < right) {
+            while (true){
+                if (venstre < right){
                     //Bytter om plassene
                     int temp = a[venstre];
                     a[venstre] = a[right];
                     a[right] = temp;
                     venstre++;
                     right--;
-                } else break;
-                while ((a[right] & 1) == 0) right--; //partallene fra høyre siden
-                while ((a[venstre] & 1) != 0) venstre++; //oddetallene fra vendtre siden
+                }
+                else break;
+                while ((a[right] & 1) == 0) right --;
+                while ((a[venstre] & 1) != 0) venstre++;
             }
 
         }
-        //Sorterer partallene i stigende rekkefølge
+         //Sorterer partallene i stigende rekkefølge
         kvikksortering(a, venstre, a.length);
 
         //Sorterer oddetallene i stigende rekkefølge
@@ -206,51 +199,51 @@ ettersom den dominerende operasjonen utføres mindre.
     }
 
     //Bytter om plassene
-    public static void bytte_plass(int[] a, int venstre, int right) {
+    public static void bytte_plass( int [] a, int venstre, int right){
         int temp = a[venstre];
         a[venstre] = a[right];
         a[right] = temp;
     }
 
     //Lager en privat metode for kvikksortering
-    private static void kvikksortering_private(int[] a, int venstre, int right) {
-        if (venstre >= right) {
+    private static void kvikksortering_private(int[] a, int venstre, int right){
+        if(venstre >= right){
             return;//Blir returnert dersom venstre er større eller lik hoyre(right)
         }
         //Bruker metoden sParter, og midtverdien
-        int midtverdi = sParter(a, venstre, right, ((venstre + right) / 2));
+        int midtverdi = sParter(a, venstre, right, ((venstre + right)/2));
         kvikksortering_private(a, midtverdi + 1, right); //Intervallet a[midtverdi+1:h] blir sortert ([v:h])
-        kvikksortering_private(a, venstre, midtverdi - 1); //Intervallet a[v:midtverdi-1] blir sortert ([v:h])
+        kvikksortering_private(a, venstre, midtverdi - 1 ); //Intervallet a[v:midtverdi-1] blir sortert ([v:h])
     }
 
     //Lager en metode for kvikksorteing
-    public static void kvikksortering(int[] a, int fra_venstre, int til_right) { //venstre = fra, høyre = til - 1
+    public static void kvikksortering (int[] a, int fra_venstre, int til_right){ //venstre = fra, høyre = til - 1
         kvikksortering_private(a, fra_venstre, til_right - 1); //fra_venstre = venstre, til_høyre - 1 = høyre
     }
 
     //parter metode
-    private static int parter(int[] a, int venstre, int right, int skilleverdi) {
+    private static int parter (int [] a, int venstre, int right, int skilleverdi){
         //Når (venstre >=  right) så stopper det
-        while (true) {
-            while (venstre <= right && a[right] >= skilleverdi) {
+        while (true){
+            while (venstre <= right && a[right] >= skilleverdi){
                 right--; //venstre er stoppeverdi for høyre
             }
             while (venstre <= right && a[venstre] < skilleverdi) {
                 venstre++; //right er stoppeverdi for venstre
             }
 
-            //bytter om a[h] og a[v], altså plassene
-            if (venstre < right) {
+            //bytter om a[h] og a[v]
+            if (venstre < right){
                 bytte_plass(a, venstre++, right--);
-            } else {
+            }
+            else{
                 return venstre;
             }
         }
     }
-
     //sParter metode
     public static int sParter(int[] a, int venstre, int right, int indeks) {
-        bytte_plass(a, indeks, right); //Bytter skilleverdien a[indeks] helt bak
+        bytte_plass(a,indeks, right); //Bytter skilleverdien a[indeks] helt bak
         int posisjon = parter(a, venstre, right - 1, a[right]); //Sepererer a[v:h-1]
         bytte_plass(a, posisjon, right);  //Bytter skilleverdien på rett plass
         return posisjon; //Skilleverdien sin posisjon blir levert
@@ -260,12 +253,12 @@ ettersom den dominerende operasjonen utføres mindre.
     ///// Oppgave 5 //////////////////////////////////////
     public static void rotasjon(char[] a) {
         //throw new NotImplementedException();
-        if (a.length > 1) {
-            char temp = a[a.length - 1];
-            for (int i = a.length - 1; i > 0; i--) {
-                a[i] = a[i - 1];
+        if (a.length>1){
+            char temp = a[a.length-1];
+            for (int i=a.length-1; i>0; i--){
+                a[i]= a[i-1];
             }
-            a[0] = temp;
+            a[0]=temp;
         }
     }
 
@@ -287,7 +280,7 @@ ettersom den dominerende operasjonen utføres mindre.
         //hvis vi ønker a rotere et veldig stort tall
         //bruker man som regel gcd for å finne hvor mange steg vi skal flytte på.
         int gcd = 1;
-        for (int i = 1; i <= aLengde && i <= b; ++i) {
+        for(int i = 1; i <= aLengde && i <= b; ++i) {
 
             // Checks if i is factor of both integers
             if (aLengde % i == 0 && b % i == 0) {
@@ -300,7 +293,7 @@ ettersom den dominerende operasjonen utføres mindre.
         for (int k = 0; k < antallFlytt; k++) {
             char variabel = a[k];
 
-            for (int i = k - b, j = k; i != k; i = i - b) {
+            for (int i = k - b, j = k; i != k; i = i - b){
 
 
                 if (i < 0) {
@@ -329,7 +322,7 @@ ettersom den dominerende operasjonen utføres mindre.
         int minste = Math.min(s.length(), t.length());
         StringBuilder flettet = new StringBuilder();
 
-        for (int i = 0; i < minste; i++) {
+        for (int i = 0; i < minste; i++){
             char[] a1 = s.toCharArray();
             char[] a2 = t.toCharArray();
             flettet.append(a1[i]).append(a2[i]);
@@ -341,21 +334,21 @@ ettersom den dominerende operasjonen utføres mindre.
     }
 
 
-    /// 7b)
+    /// 7b) Hei
     public static String flett(String... s) {
 
         //definert en tom (tilgjengelig) streng
         String flett = "";
 
         //sjekker om parameterstrengen er tom
-        if (s.length != 0) {
+        if (s.length!=0) {
             int sLengde = s[0].length();
 
             //finner den lengste verdien
-            for (int i = 0; i < s.length - 1; ++i) {
+            for (int i = 0; i < s.length-1; ++i) {
 
-                if (s[i].length() <= s[i + 1].length()) {
-                    sLengde += s[i + 1].length();
+                if (s[i].length() <= s[i+1].length()) {
+                    sLengde += s[i+1].length();
                 }
             }
 
@@ -363,7 +356,7 @@ ettersom den dominerende operasjonen utføres mindre.
             for (int i = 0; i < sLengde; ++i) {
                 for (int j = 0; j < s.length; ++j) {
                     if (s[j].length() > i) {
-                        flett += s[j].charAt(i);
+                        flett+= s[j].charAt(i);
                     }
                 }
             }
@@ -374,57 +367,58 @@ ettersom den dominerende operasjonen utføres mindre.
     }
 
     ///// Oppgave 8 //////////////////////////////////////
-    public static int[] indekssortering(int[] array) {
-        int[] sortert = new int[array.length];
-        int[] indeks = new int[array.length];
-        if (array.length == 0) {
-            return indeks;
+    public static int[] indekssortering(int[] a) {
+
+        //throw new NotImplementedException();
+
+        int [] index = new int[a.length];
+        int [] b = new int [a.length];
+
+        for (int i=0; i < a.length; i++){
+            index[i] = a[i];
         }
-        for (int i = 0; i < array.length; i++) {
-            sortert[i] = array[i];
-        }
-        for (int i = 0; i < array.length; i++) {
-            for (int j = 0; j < array.length; j++) {
-                if (sortert[i] == array[j]) {
-                    indeks[i] = j;
+
+        for (int i = 0; i < a.length; i++) {
+            for (int j = 0; j < a.length; j++) {
+
+                if (index[i] == a[j]) {
+                     b[i] = j;
                 }
             }
         }
-        return indeks;
+
+        return b;
     }
+
 
     ///// Oppgave 9 //////////////////////////////////////
     public static int[] tredjeMin(int[] a) {
 
         if(a.length<3) throw new NoSuchElementException(" Tabellen har mindre enn 3");
         int tabell = a.length; //tabellens lengde
-        
-        // Bruker metoden indekssortering () fra Oppgave 8. Den kaller jeg på tabell1
-        //Tabellen består kun de 3 første verdiene
-        int [] tabell1 = indekssortering(Arrays.copyOf(a,3));
 
-        //​Bruker tre hjelpevariabler for verdier og tre hjelpevariabler for indekser.
+
+        int [] returnerArray = {0,1,2};
+        returnerArray = indekssortering(returnerArray);
+
         //Tre hjelpevariabler
-        int m = tabell1[0]; //minste verdi - m tabell
-        int nm = tabell1[1]; // nest minste verdi - nm tabell
-        int tm = tabell1[2]; //tredje minste verdi - tm tabell
+        int m = returnerArray[0]; //minste verdi
+        int nm = returnerArray[1]; //nest minste verdi
+        int tm = returnerArray[2]; //tredje minste verdi
 
         //Tre hjelpevariabler
         int minst = a[m];
         int nestminst = a[nm];
         int tredjeminst = a[tm];
 
-        for (int i = 3; i < tabell; i++) { //Lager en for-løkke
+        for (int i = 3; i < tabell; i++) { ////Lager en for-løkke
             if (a[i] < tredjeminst) {
-                tredjeminst = nestminst;
-
                 if (a[i] < nestminst) {
-                    nestminst = minst;
-
                     if (a[i] < minst) {
+                        tredjeminst = nestminst;
+                        nestminst = minst;
                         minst = i;
                     }
-
                 }
             }
         }
