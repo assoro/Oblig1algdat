@@ -37,6 +37,26 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int antall;            // antall noder i listen
     private int endringer;         // antall endringer i listen
 
+    private Node<T>finnNode(int indeks){
+        Node<T> returnereNode; // Returnere noden med den gitte indeksen/posisjonen.
+
+        // Dersom indeksen er mindre enn ​antall / 2, så ​skal letingen etter noden starte fra hode og
+        // gå mot høyre ved hjelp av neste-pekere.
+        if (indeks < antall/2){
+            returnereNode = hode; // Starter fra hode
+            for (int i = 0; i < indeks; i++){ // Går mot høyre ved hjelp av neste-pekere
+                returnereNode = returnereNode.neste;
+            }
+        }
+        // Hvis ikke, skal​ letingen starte fra halen og gå mot venstre ved hjelp av forrige-pekere.
+        else{
+            returnereNode = hale; // Starter fra halen
+            for ( int i = antall - 1; i > indeks; i--){ // Går mot venstre ved hjelp av forrige-pekere
+                returnereNode = returnereNode.forrige;
+            }
+        }
+        return returnereNode;
+    }
 
     public DobbeltLenketListe() {
         hode = hale = null;
@@ -155,7 +175,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T hent(int indeks) {
-        throw new NotImplementedException();
+        indeksKontroll(indeks, false); // Bruker metoden indekskontroll () som blir arvet fra Liste,
+        //  og bruker false som andre parameter i indekskontroll
+        return finnNode(indeks).verdi; // Returnerer
     }
 
     @Override
@@ -192,7 +214,21 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T oppdater(int indeks, T nyverdi) {
-        throw new NotImplementedException();
+        indeksKontroll(indeks, false); // Bruker metoden indekskontroll () som blir arvet fra Liste,
+                                              //  og bruker false som andre parameter i indekskontroll
+
+        //Null-verdier skal ikke kunne legges inn, og erstatter verdien på plass: indeks med "nyverdi".
+        Objects.requireNonNull(nyverdi, "Null-verdi kan ikke legges inn");
+
+        Node <T> returnereNode = finnNode(indeks); //Indeks sjekkes
+
+        //Returnerer det som lå der før
+        T verdi = returnereNode.verdi;
+        returnereNode.verdi = nyverdi;
+
+        endringer++; // Antall ednringer i listen økes
+
+        return verdi; //Returnerer den gamle verdien, altså det som lå der før
     }
 
     @Override
