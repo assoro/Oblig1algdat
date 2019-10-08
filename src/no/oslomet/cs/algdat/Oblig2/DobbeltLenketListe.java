@@ -112,19 +112,20 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     // Lager metoden ​Liste<T> subliste(int fra, int til)
     public Liste<T> subliste(int fra, int til){
 
-        //Lager en ny liste
+        // Lager en ny liste
         DobbeltLenketListe <T> subliste = new DobbeltLenketListe<>();
 
-        //Sjekker om indeksene fra og til er lovlige på metoden fratilKontroll()
+        // Sjekker om indeksene fra og til er lovlige på metoden fratilKontroll()
         fratilkontroll(antall, fra, til);
 
         Node<T> returnereNode = finnNode(fra);
+
+        // Verdiene i intervallet [fra:til>
         for (int i = fra; i < til; i++){
-            subliste.leggInn(returnereNode.verdi);
+            subliste.leggInn(returnereNode.verdi); // Bruker metoden leggInn()
             returnereNode = returnereNode.neste;
 
         }
-        //
         return subliste; //Metoden returnerer listen  som inneholder verdiene fra intervallet [fra:til>
     }
 
