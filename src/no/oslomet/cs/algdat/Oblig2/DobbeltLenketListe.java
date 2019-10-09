@@ -39,11 +39,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     private Node<T> finnNode(int indeks){
 
-        Node<T> returnereNode;
+        Node<T> returnereNode = hode;
         /* Dersom indeksen er mindre enn ​antall / 2, så ​skal letingen etter noden starte fra hode og
         gå mot høyre ved hjelp av neste-pekere */
         if (indeks < antall / 2) {
-            returnereNode = hode; // Starter fra hode
             for (int i = 0; i < indeks; i++)  // Går mot høyre ved hjelp av neste-pekere
                 returnereNode = returnereNode.neste;
             return returnereNode;
@@ -424,6 +423,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     //Lager ​public static <T> void sorter(Liste<T> liste, Comparator <? super T> c)​metoden
     public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
 
+        for (int i = liste.antall(); i > 1; i--){
+            Iterator <T> iterator = liste.iterator(); // Henter iteratoren fra listen
+        }
         throw new NotImplementedException();
     }
 
