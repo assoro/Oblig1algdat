@@ -448,7 +448,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         @Override
         public boolean hasNext(){
-            throw new NotImplementedException();
+            return denne != null;  // denne koden skal ikke endres!
         }
 
         @Override
@@ -521,8 +521,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 }
             }
             liste.leggInn(liste.fjern(verdi));
+            if (liste == null){
+                throw new IllegalArgumentException( " illegalt intervall");
+            }
         }
-        throw new NotImplementedException();
     }
 
     public static void main(String[]  args) {
