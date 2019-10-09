@@ -45,15 +45,14 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         if (indeks < antall / 2) {
             for (int i = 0; i < indeks; i++)  // Går mot høyre ved hjelp av neste-pekere
                 returnereNode = returnereNode.neste;
-            return returnereNode;
         }
         // Hvis ikke, skal​ letingen starte fra halen og gå mot venstre ved hjelp av forrige-pekere.
         else{
             returnereNode = hale; // Starter fra halen
             for ( int i = antall - 1; i > indeks; i--) // Går mot venstre ved hjelp av forrige-pekere
                 returnereNode = returnereNode.forrige;
-            return returnereNode; // Returnerer noden med den gitte indeksen/posisjonen.
         }
+        return returnereNode; // Returnerer noden med den gitte indeksen/posisjonen.
     } //Slutt metode finnNode
 
     /* Hvis indeksene fra og til ikke er lovlige, så kastes det unntak i metoden fratilKontroll ().
