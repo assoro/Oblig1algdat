@@ -70,7 +70,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             throw new IndexOutOfBoundsException( "fra(" +fra+ ") < 0 er negativ");
         }
         if (fra > til){ //Fra er større enn til
-            throw new IllegalArgumentException( "fra(" +fra+ ") > til" +til+ ")");
+            throw new IllegalArgumentException( "fra(" +fra+ ") > til" +til+ ") illegalt intervall");
         }
 
     } //Slutt metode fratilKontroll
@@ -507,8 +507,20 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     //Lager ​public static <T> void sorter(Liste<T> liste, Comparator <? super T> c)​metoden
     public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
 
-        for (int i = liste.antall(); i > 1; i--){
+        for (int tall = liste.antall(); tall > 1; tall--){
             Iterator <T> iterator = liste.iterator(); // Henter iteratoren fra listen
+
+            int verdi = 0;
+            T minste_verdi = iterator.next();
+
+            for (int i = 1; i < tall; i++){
+                T største_verdi = iterator.next();
+                if (c.compare(minste_verdi,største_verdi) < 0){
+                    verdi = i;
+                    minste_verdi = største_verdi;
+                }
+            }
+            liste.leggInn(liste.fjern(verdi));
         }
         throw new NotImplementedException();
     }
