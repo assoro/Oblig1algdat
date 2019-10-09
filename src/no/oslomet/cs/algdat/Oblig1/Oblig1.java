@@ -10,9 +10,9 @@ package no.oslomet.cs.algdat.Oblig1;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
-
 import static no.oslomet.cs.algdat.Oblig1.Oblig1.kvikksortering;
 
 
@@ -161,10 +161,9 @@ ettersom den dominerende operasjonen utføres mindre.
         //throw new NotImplementedException();
 
         //Indeksene som er nå fra høyre og venstre
-        //venstre = 0, right = tall - 1
+        //venstre = 0, right = a.length - 1
         int venstre = 0;
         int right = a.length - 1;
-
 
         for (int i = 0; i < a.length; i++) { //Lager en for-løkke, og starter med i = 1
 
@@ -192,7 +191,7 @@ ettersom den dominerende operasjonen utføres mindre.
             }
 
         }
-        //Sorterer partallene i stigende rekkefølge
+         //Sorterer partallene i stigende rekkefølge
         kvikksortering(a, venstre, a.length);
 
         //Sorterer oddetallene i stigende rekkefølge
@@ -261,12 +260,56 @@ ettersom den dominerende operasjonen utføres mindre.
             }
             a[0]=temp;
         }
-
     }
 
     ///// Oppgave 6 //////////////////////////////////////
-    public static void rotasjon(char[] a, int k) {
-        throw new NotImplementedException();
+    public static void rotasjon(char[] a, int b) {
+        int aLengde = a.length;
+
+        //sjekker om lengden på a er mindre enn 2,
+        //hvis den er det vil ingen rotasjon skje
+        if (aLengde < 2) {
+            return;
+        }
+
+        //sjekker om verdien d i indeks er negativt
+        if ((b %= aLengde) < 0) {
+            b = b + aLengde;
+        }
+
+        //hvis vi ønker a rotere et veldig stort tall
+        //bruker man som regel gcd for å finne hvor mange steg vi skal flytte på.
+        int gcd = 1;
+        for(int i = 1; i <= aLengde && i <= b; ++i) {
+
+            // Checks if i is factor of both integers
+            if (aLengde % i == 0 && b % i == 0) {
+                gcd = i;
+            }
+        }
+        int antallFlytt = gcd;
+
+        //i for - løkn bruker vi gcd til rotasjonen
+        for (int k = 0; k < antallFlytt; k++) {
+            char variabel = a[k];
+
+            for (int i = k - b, j = k; i != k; i = i - b){
+
+
+                if (i < 0) {
+                    //sjekker fortegnet til i
+                    i = i + aLengde;
+
+                    //kopierer j
+                    a[j] = a[i];
+
+                    //oppdaterer j
+                    j = i;
+                }
+            }
+            //legger tilbak verdien i den midlertidige variabelen vi definerte først
+            a[k + b] = variabel;
+        }
     }
 
     ///// Oppgave 7 //////////////////////////////////////
@@ -291,9 +334,36 @@ ettersom den dominerende operasjonen utføres mindre.
     }
 
 
-    /// 7b)
+    /// 7b) Hei
     public static String flett(String... s) {
-        throw new NotImplementedException();
+
+        //definert en tom (tilgjengelig) streng
+        String flett = "";
+
+        //sjekker om parameterstrengen er tom
+        if (s.length!=0) {
+            int sLengde = s[0].length();
+
+            //finner den lengste verdien
+            for (int i = 0; i < s.length-1; ++i) {
+
+                if (s[i].length() <= s[i+1].length()) {
+                    sLengde += s[i+1].length();
+                }
+            }
+
+            //dobbel for-løkke for å legge til verdi fra hver streng til alle strengene er tomme
+            for (int i = 0; i < sLengde; ++i) {
+                for (int j = 0; j < s.length; ++j) {
+                    if (s[j].length() > i) {
+                        flett+= s[j].charAt(i);
+                    }
+                }
+            }
+        }
+        //returnerer strengen vi definerte som ny streng fra parameterstrengene x antall
+        return flett;
+
     }
 
     ///// Oppgave 8 //////////////////////////////////////
@@ -304,37 +374,20 @@ ettersom den dominerende operasjonen utføres mindre.
         int [] index = new int[a.length];
         int [] b = new int [a.length];
 
-        for (int i=0; i<a.length; i++){
-            a[i] = a[i];
-            index[i]= i;
+        for (int i=0; i < a.length; i++){
+            index[i] = a[i];
         }
 
-        for (int i = 0; i < a.length - 1; i++)
-        {
-            int m = i;             // indeks til den minste (føreløpig)
-            int  minverdi = a[i];  // verdien til den minste(føreløpig)
+        for (int i = 0; i < a.length; i++) {
+            for (int j = 0; j < a.length; j++) {
 
-            for (int j = i + 1; j < a.length; j++)
-            {
-                if (a[j] < minverdi)
-                {
-                    minverdi = a[j];  // ny minste verdi
-                    m = j;            // indeksen til ny minste verdi
+                if (index[i] == a[j]) {
+                     b[i] = j;
                 }
             }
-            // bytter om a[i] og a[m]
-            int temp = a[i];
-            a[i] = a[m];
-            a[m] = temp;
-
-            int temp1 = index[i];
-            index[i] = index[m];
-            index[m] = temp1;
-
         }
 
-        return index;
-
+        return b;
     }
 
 
@@ -345,14 +398,13 @@ ettersom den dominerende operasjonen utføres mindre.
         int tabell = a.length; //tabellens lengde
 
 
-        //Sorterer verdiene for å vite hvem som er minst
-        int [] c = new int [3];
-
+        int [] returnerArray = {0,1,2};
+        returnerArray = indekssortering(returnerArray);
 
         //Tre hjelpevariabler
-        int m = 0; //minste verdi
-        int nm = 1; //nest minste verdi
-        int tm = 2; //tredje minste verdi
+        int m = returnerArray[0]; //minste verdi
+        int nm = returnerArray[1]; //nest minste verdi
+        int tm = returnerArray[2]; //tredje minste verdi
 
         //Tre hjelpevariabler
         int minst = a[m];
