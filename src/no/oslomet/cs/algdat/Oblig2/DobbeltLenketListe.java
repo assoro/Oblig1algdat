@@ -420,7 +420,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     public Iterator<T> iterator(int indeks) {
         indeksKontroll(indeks, false);
         return new DobbeltLenketListeIterator(indeks);
-       // throw new NotImplementedException();
     }
 
     private class DobbeltLenketListeIterator implements Iterator<T>
@@ -440,10 +439,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
                 indeksKontroll(indeks, false);
                 denne=finnNode(indeks);
-                fjernOK=false;  //next()kalles
+                fjernOK=false;  //sant når next()kalles
                 iteratorendringer=endringer; //endringer telles
 
-                throw new NotImplementedException();
         }
 
         @Override
@@ -453,14 +451,14 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         @Override
         public T next(){
-            if (!hasNext())throw new NoSuchElementException("Ingen flere verdier!");
+            if (denne==null)throw new NoSuchElementException("Ingen flere verdier!");
 
             if (iteratorendringer != endringer) throw new ConcurrentModificationException("Listen ble endret!");
 
             fjernOK=true;
 
-            T verdi=denne.verdi;
-            denne=denne.neste;
+            T verdi=denne.verdi; //tar vare på "denne"
+            denne=denne.neste; //Flytter "denne" til neste
 
             return verdi;
 
