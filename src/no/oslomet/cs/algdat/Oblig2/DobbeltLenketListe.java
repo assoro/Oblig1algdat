@@ -37,6 +37,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int antall;            // antall noder i listen
     private int endringer;         // antall endringer i listen
 
+    //Metode finnNode
     private Node<T> finnNode(int indeks){
 
         Node<T> returnereNode = hode;
@@ -69,7 +70,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         if (fra < 0){ //Fra er negativ
             throw new IndexOutOfBoundsException( "fra(" +fra+ ") < 0 er negativ");
         }
-        if (fra > til){ //Fra er større enn til
+        if (fra > til){ //Fra er større enn til - Illegal
             throw new IllegalArgumentException( "fra(" +fra+ ") > til" +til+ ") illegalt intervall");
         }
 
@@ -122,7 +123,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             returnereNode = returnereNode.neste;
 
         }
-        return subliste; //Metoden returnerer listen  som inneholder verdiene fra intervallet [fra:til>
+        return subliste; //Metoden returnerer sublisten  som inneholder verdiene fra intervallet [fra:til>
     }
 
     @Override
@@ -249,8 +250,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T oppdater(int indeks, T nyverdi) {
-        indeksKontroll(indeks, false); // Bruker metoden indekskontroll () som blir arvet fra Liste,
-                                              //  og bruker false som andre parameter i indekskontroll
+        indeksKontroll(indeks, false); /*Bruker metoden indekskontroll () som blir arvet fra Liste,
+                                              og bruker false som andre parameter i indekskontroll*/
 
         //Null-verdier skal ikke kunne legges inn, og erstatter verdien på plass: indeks med "nyverdi".
         Objects.requireNonNull(nyverdi, "Null-verdi kan ikke legges inn");
@@ -505,23 +506,28 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     //Lager ​public static <T> void sorter(Liste<T> liste, Comparator <? super T> c)​metoden
     public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
 
-        for (int tall = liste.antall(); tall > 1; tall--){
-            Iterator <T> iterator = liste.iterator(); // Henter iteratoren fra listen
+        //Hvis listen er tom, kastes det et unntak
+        if (liste == null) {
+            throw new IllegalArgumentException(" Tom liste");
+        }
+
+        //Lager en for-løkke
+        for (int tall = liste.antall(); tall > 0; tall--) {
+            Iterator<T> iterator = liste.iterator(); // Henter iteratoren fra listen
 
             int verdi = 0;
-            T minste_verdi = iterator.next();
+            T minsteverdi = iterator.next();
 
-            for (int i = 1; i < tall; i++){
-                T største_verdi = iterator.next();
-                if (c.compare(minste_verdi,største_verdi) < 0){
+            for (int i = 1; i < tall; i++) {
+                T storsteverdi = iterator.next();
+
+                // Sammenligner minsteverdi og største verdi for å se om minsteverdi er mindre enn null
+                if (c.compare(minsteverdi, storsteverdi) < 0) {
                     verdi = i;
-                    minste_verdi = største_verdi;
+                    minsteverdi = storsteverdi;
                 }
             }
-            liste.leggInn(liste.fjern(verdi));
-            if (liste == null){
-                throw new IllegalArgumentException( " illegalt intervall");
-            }
+            liste.leggInn(liste.fjern(verdi)); //Fjerner verdien
         }
     }
 
