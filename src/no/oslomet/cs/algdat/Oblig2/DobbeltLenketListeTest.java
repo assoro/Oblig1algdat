@@ -568,6 +568,7 @@ class DobbeltLenketListeTest {
     void oppgave5() {
         int antallFeil = 0;
 
+
         DobbeltLenketListe<Integer> liste = new DobbeltLenketListe<>();
 
         try {
@@ -1159,7 +1160,8 @@ class DobbeltLenketListeTest {
             liste.leggInn(k);
         }
 
-        for (Iterator<Integer> i = liste.iterator(); i.hasNext(); ) {
+        for (Iterator<Integer> i = liste.iterator(); i.
+                hasNext(); ) {
             int verdi = i.next();
             if (verdi % 2 == 1) {
                 i.remove(); // fjerner oddetallene
