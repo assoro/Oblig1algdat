@@ -170,27 +170,32 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public void leggInn(int indeks, T verdi) {
         Objects.requireNonNull(verdi, "Ikke tillatt med null-verdier!");
-        indeksKontroll(indeks, false);
 
-        if (indeks == 0) {
-            hode = new Node<T>(verdi, hode, null);;
+       /* if (indeks < 0) {
+            throw new IndexOutOfBoundsException("Indeks er negativ!");
+        }
+        else if (indeks > antall)
+            throw new IndexOutOfBoundsException("<Indeks større enn antall");*/
 
-            if (antall == 0) {
-                hale = hode;
-            }
+       indeksKontroll(indeks, false);
+
+        if (indeks == 0 && antall == 0) {
+            hode = hale = new Node<T>(verdi, hode, null);
+
         }
 
         else if (indeks == antall) {
-            hale = hale.neste = new Node<T>(verdi, null, hale);;
+            hale = hale.neste = new Node<T>(verdi, null, hale);
         } //legges bakerst
 
-        else {
-            Node<T> node = hode;
+         else {
+             Node<T> node = hode;
 
-            for (int i = 1; i < indeks; i++) {
+             for (int i = 1; i < indeks; i++) {
                 node.neste = new Node<T>(verdi, null, node.neste);
             }
-            antall++;
+
+             antall++;
         }
     }
 
@@ -340,8 +345,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public void nullstill() {
-
-
         for(Node<T> m = hode; m != null; m = m.neste) //Lokke som går igjennom alle verdiene i arrayet
         {
             Node<T> temp = m; //Hjelpe variabel til bruk for sletting
@@ -465,13 +468,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         @Override
         public void remove(){
-
             if (!fjernOK) { //Hvis ikke fjernOK blir kalt
                 throw new IllegalStateException("Ikke gyldig tilstand!");
             }
             else if (endringer != iteratorendringer) { //Hvis ikke endringene er like
                 throw new ConcurrentModificationException("Antall endringer (" + endringer + ") er ikke lik iteratorEndringer (" + iteratorendringer + ")");
-
             }
 
             fjernOK = false; //alltid false
