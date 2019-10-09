@@ -197,6 +197,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             }
 
              antall++;
+
         }
     }
 
@@ -441,7 +442,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 indeksKontroll(indeks, false);
                 denne=finnNode(indeks);
                 fjernOK=false;  //sant når next()kalles
-                iteratorendringer=endringer; //endringer telles
+                iteratorendringer = endringer; //endringer telles
 
         }
 
@@ -511,23 +512,25 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             throw new IllegalArgumentException(" Tom liste");
         }
 
-        //Lager en for-løkke
-        for (int tall = liste.antall(); tall > 0; tall--) {
-            Iterator<T> iterator = liste.iterator(); // Henter iteratoren fra listen
+        for (int n = liste.antall(); n > 0; n--) {
 
-            int verdi = 0;
-            T minsteverdi = iterator.next();
+            int m = 0; //definert variabel
+            Iterator<T> Iterator = liste.iterator(); //Henter iterator fra liste
 
-            for (int i = 1; i < tall; i++) {
-                T storsteverdi = iterator.next();
+            T minsteverdi = Iterator.next(); //iterator fra liste til minsteverdi, kalle next() - metode
+            for (int i = 1; i < n; i++) //for løkke
+            {
+                T storsteverdi = Iterator.next(); //størsteverdi i liste, kaller next() - metode;
 
-                // Sammenligner minsteverdi og største verdi for å se om minsteverdi er mindre enn null
-                if (c.compare(minsteverdi, storsteverdi) < 0) {
-                    verdi = i;
-                    minsteverdi = storsteverdi;
+                if (c.compare(minsteverdi, storsteverdi) > 0) //sammenligner misteverdie og storsteverdi for å se om verdiene er mindre enn null.
+                {
+                    minsteverdi = storsteverdi; //sjekker om minsteverdi er lik storsteverdi
+                    m = i; //i i listen settes til m
                 }
             }
-            liste.leggInn(liste.fjern(verdi)); //Fjerner verdien
+            //fjernes verdien som er satt til m i if - løkke
+            liste.leggInn(liste.fjern(m));
+
         }
     }
 
