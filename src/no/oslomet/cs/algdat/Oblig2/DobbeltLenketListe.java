@@ -38,25 +38,23 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int endringer;         // antall endringer i listen
 
     private Node<T> finnNode(int indeks){
-        Node<T> returnereNode;
 
+        Node<T> returnereNode;
         /* Dersom indeksen er mindre enn ​antall / 2, så ​skal letingen etter noden starte fra hode og
         gå mot høyre ved hjelp av neste-pekere */
-        if (indeks < antall/2){
+        if (indeks < antall / 2) {
             returnereNode = hode; // Starter fra hode
-            for (int i = 0; i < indeks; i++){ // Går mot høyre ved hjelp av neste-pekere
+            for (int i = 0; i < indeks; i++)  // Går mot høyre ved hjelp av neste-pekere
                 returnereNode = returnereNode.neste;
-            }
+            return returnereNode;
         }
         // Hvis ikke, skal​ letingen starte fra halen og gå mot venstre ved hjelp av forrige-pekere.
         else{
             returnereNode = hale; // Starter fra halen
-            for ( int i = antall - 1; i > indeks; i--){ // Går mot venstre ved hjelp av forrige-pekere
+            for ( int i = antall - 1; i > indeks; i--) // Går mot venstre ved hjelp av forrige-pekere
                 returnereNode = returnereNode.forrige;
-            }
+            return returnereNode; // Returnerer noden med den gitte indeksen/posisjonen.
         }
-
-        return returnereNode; // Returnerer noden med den gitte indeksen/posisjonen.
     } //Slutt metode finnNode
 
     /* Hvis indeksene fra og til ikke er lovlige, så kastes det unntak i metoden fratilKontroll ().
@@ -74,7 +72,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             throw new IndexOutOfBoundsException( "fra(" +fra+ ") < 0 er negativ");
         }
         if (fra > til){ //Fra er større enn til
-            throw new IndexOutOfBoundsException( "fra(" +fra+ ") > til" +til+ ")");
+            throw new IllegalArgumentException( "fra(" +fra+ ") > til" +til+ ")");
         }
 
     } //Slutt metode fratilKontroll
@@ -423,7 +421,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     } // class DobbeltLenketListeIterator
 
+    //Lager ​public static <T> void sorter(Liste<T> liste, Comparator <? super T> c)​metoden
     public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
+
         throw new NotImplementedException();
     }
 
