@@ -16,8 +16,10 @@ public class ObligSBinTre<T> implements Beholder<T>
     private Node(T verdi, Node<T> v, Node<T> h, Node<T> forelder)
     {
       this.verdi = verdi;
-      venstre = v; høyre = h;
+      venstre = v;
+      høyre = h;
       this.forelder = forelder;
+
     }
 
     private Node(T verdi, Node<T> forelder)  // konstruktør
@@ -85,9 +87,13 @@ public class ObligSBinTre<T> implements Beholder<T>
     return antall;
   }
   
-  public int antall(T verdi)
-  {
-    throw new UnsupportedOperationException("Ikke kodet ennå!");
+  public int antall(T verdi) {
+    if (verdi == null) {
+      return 0;
+    }
+
+
+    //throw new UnsupportedOperationException("Ikke kodet ennå!");
   }
   
   @Override
@@ -118,10 +124,41 @@ public class ObligSBinTre<T> implements Beholder<T>
     throw new UnsupportedOperationException("Ikke kodet ennå!");
   }
   
-  public String høyreGren()
-  {
-    throw new UnsupportedOperationException("Ikke kodet ennå!");
+  public String høyreGren() {
+
+    //Bruker stringbuilder til å legge in grenens verdier i en tegnstreng
+    StringBuilder streng = new StringBuilder();
+    streng.append("[");
+
+    //Definerer rotnoden i treet som n
+    Node<T> n = rot;
+
+
+    while (n != null) {  //Bruker while løkke til å sjekke at rotnoden eksisterer
+      if (n == rot) {  //Hvis n r det samme som rotnoden...
+        streng.append(n.verdi);  //legger til verdiene i strenger
+      }
+
+      else {
+        streng.append(",").append(" ").append(n.verdi);  //legger til komma, mellomrom og verdiene.
+      }
+
+      if (n.høyre == null && n.venstre == null) { //hvis det ikke eksisterer verken høyre eller venstre
+        break;
+      }
+
+      if (n.høyre != null) { //hvis hølyre ikke er null vil denne returnere verdiene til høyre
+        n = n.høyre;
+      }
+
+      else { //ellers vil den returnere til venstre av treet
+        n = n.venstre;
+      }
+    }
+    streng.append("]"); //legger til siste klamme i strengen
+    return streng.toString(); //skriver ut strengen med tostring
   }
+
   
   public String lengstGren()
   {
