@@ -243,6 +243,31 @@ public class ObligSBinTre<T> implements Beholder<T> {
     }
 
     public String postString() {
+      public String postString(){
+        if(antall == 0){
+          return "[]";
+        }
+
+        StringJoiner sj = new StringJoiner(", ", "[", "]");
+        Node<T> p = rot;
+        while(p.venstre != null || p.høyre != null) {
+          if(p.venstre == null){
+            p = p.høyre;
+          } else {
+            p = p.venstre;
+          }
+        } sj.add(p.toString());
+
+        while(true) {
+          if(nestePostorden(p) == null){
+            break;
+          }
+          p = nestePostorden(p);
+          sj.add(p.toString());
+        }
+
+        return sj.toString();
+      }
         throw new UnsupportedOperationException("Ikke kodet ennå!");
     }
 
