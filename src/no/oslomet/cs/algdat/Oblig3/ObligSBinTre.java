@@ -243,7 +243,6 @@ public class ObligSBinTre<T> implements Beholder<T> {
     }
 
     public String postString() {
-      public String postString(){
         if(antall == 0){
           return "[]";
         }

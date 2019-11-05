@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="09d1d5eb-5f54-405d-89fd-dd911adf1ec7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/Oblig1.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="09d1d5eb-5f54-405d-89fd-dd911adf1ec7" name="Default Changelist" comment="Kode for oppgave 8b">
       <change beforePath="$PROJECT_DIR$/src/no/oslomet/cs/algdat/Oblig3/ObligSBinTre.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/no/oslomet/cs/algdat/Oblig3/ObligSBinTre.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -39,8 +36,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/no/oslomet/cs/algdat/Oblig3/ObligSBinTre.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="86">
-              <caret line="225" column="6" selection-start-line="225" selection-start-column="6" selection-end-line="225" selection-end-column="6" />
+            <state relative-caret-position="-121">
+              <caret line="235" column="26" selection-start-line="235" selection-start-column="26" selection-end-line="235" selection-end-column="26" />
               <folding>
                 <element signature="e#841#842#0" expanded="true" />
                 <element signature="e#882#883#0" expanded="true" />
@@ -60,8 +57,6 @@
                 <element signature="e#6025#6026#0" expanded="true" />
                 <element signature="e#6057#6058#0" expanded="true" />
                 <element signature="e#6132#6133#0" expanded="true" />
-                <element signature="e#6280#6281#0" expanded="true" />
-                <element signature="e#6355#6356#0" expanded="true" />
                 <element signature="e#6406#6407#0" expanded="true" />
                 <element signature="e#6451#6452#0" expanded="true" />
                 <element signature="e#6847#6848#0" expanded="true" />
@@ -279,7 +274,14 @@
       <option name="project" value="LOCAL" />
       <updated>1570620072414</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Kode for oppgave 8a">
+      <created>1572981396710</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1572981396711</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -352,7 +354,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Oppgave 6 og 8" />
     <MESSAGE value="Gått igjennkm oppgave 6 og 8" />
-    <option name="LAST_COMMIT_MESSAGE" value="Gått igjennkm oppgave 6 og 8" />
+    <MESSAGE value="Kode for oppgave 8a" />
+    <option name="LAST_COMMIT_MESSAGE" value="Kode for oppgave 8a" />
   </component>
   <component name="editorHistoryManager">
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk/Contents/Home/src.zip!/java/util/ArrayList.java">
@@ -429,8 +432,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/no/oslomet/cs/algdat/Oblig3/ObligSBinTre.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="86">
-          <caret line="225" column="6" selection-start-line="225" selection-start-column="6" selection-end-line="225" selection-end-column="6" />
+        <state relative-caret-position="-121">
+          <caret line="235" column="26" selection-start-line="235" selection-start-column="26" selection-end-line="235" selection-end-column="26" />
           <folding>
             <element signature="e#841#842#0" expanded="true" />
             <element signature="e#882#883#0" expanded="true" />
@@ -450,8 +453,6 @@
             <element signature="e#6025#6026#0" expanded="true" />
             <element signature="e#6057#6058#0" expanded="true" />
             <element signature="e#6132#6133#0" expanded="true" />
-            <element signature="e#6280#6281#0" expanded="true" />
-            <element signature="e#6355#6356#0" expanded="true" />
             <element signature="e#6406#6407#0" expanded="true" />
             <element signature="e#6451#6452#0" expanded="true" />
             <element signature="e#6847#6848#0" expanded="true" />
