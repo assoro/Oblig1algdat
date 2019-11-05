@@ -266,7 +266,7 @@ public class ObligSBinTre<T> implements Beholder<T> {
         }
 
         return sj.toString();
-      }
+
         throw new UnsupportedOperationException("Ikke kodet ennå!");
     }
 
