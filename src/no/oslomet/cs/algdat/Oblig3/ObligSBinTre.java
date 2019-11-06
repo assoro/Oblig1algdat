@@ -178,43 +178,32 @@ public class ObligSBinTre<T> implements Beholder<T> {
     }
 
     public String omvendtString() {
-        //Starter i roten p
-        Node<T> p = rot;
-
-        //Et tomt tre
-        if (tom()) return "[]";
-
-        //StringBuilder
-        StringBuilder s = new StringBuilder();     //Oppretter en StringBuilder
-        s.append('[');                             //Startparentes: [
-
-        //Bruker en hjelpestakk (tabellstakk)
-        Stack<Node<T>> stakk = new Stack<>();
-        for(; p.høyre != null; p = p.høyre) {
-            stakk.add(p);
-        }
-
-        while (true) {
-            s.append(p.verdi.toString());
-
-            if (p.venstre != null) {
-
-                for (p = p.venstre; p.høyre != null; p = p.høyre )
-                stakk.add(p);
+            if (tom()) {
+                return "[]";                    // et tomt tre
             }
 
-            else if (!stakk.empty()) {
-                p = stakk.remove(stakk.size() - 1);
+            StringBuilder s = new StringBuilder();     // oppretter en StringBuilder
+            s.append('[');                             // startparentes: [
 
+            Node<T> p = rot;
+
+            while (p.høyre != null) {
+                p = p.høyre;
+                s.append(p.verdi);
+                p = nesteInorden(p);
             }
 
-            else break;
-            s.append(",").append(" ").append(p.verdi);
+            while (p != null)
+            {
+                s.append(',').append(' ').append(p.verdi);   // legger inn p.verdi
+                p = nesteInorden(p);
+
+            }
+            s.append(']');                             // avslutningsparentes: ]
+
+            return s.toString();                       // returnerer tegnstrengen
         }
 
-        s.append(" ]");
-        return s.toString(); //Returnerer tegnsrengen
-    }
 
     public String høyreGren() {
 
@@ -289,7 +278,21 @@ public class ObligSBinTre<T> implements Beholder<T> {
     }
 
     public String[] grener() {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        if(tom()) {
+            return new String[0];
+        }
+        ArrayList<ArrayList<T>> gren
+                = allRootToLeafPaths(rot, new ArrayList<>(), new ArrayList<>());
+
+        String[] list = new String[gren.size()];
+        int teller = 0;
+        for (ArrayList<T> a:
+                gren) {
+            list[teller] = a.toString();
+            teller++;
+        }
+        return list;
+
     }
 
     public String bladnodeverdier() {
@@ -313,27 +316,27 @@ public class ObligSBinTre<T> implements Beholder<T> {
     }
 
     public String postString() {
+        Node<T> p = rot;
+        Node<T> pn;
 
-        if(antall == 0){
+        if(tom()){
           return "[]";
         }
 
         StringJoiner sj = new StringJoiner(", ", "[", "]");
-        Node<T> p = rot;
-        while(p.venstre != null || p.høyre != null) {
+
+        while(p.høyre != null || p.venstre != null) {
           if(p.venstre == null){
-            p = p.høyre;
-          } else {
             p = p.venstre;
           }
-        } sj.add(p.toString());
 
-        while(true) {
-          if(nesteInorden(p) == null){
-            break;
+          else {
+            p = p.høyre;
           }
-          p = nesteInorden(p);
-          sj.add(p.toString());
+        }
+
+        while (p != null) {
+            sj.add(p.toString());
         }
 
         return sj.toString();
