@@ -215,7 +215,42 @@ public class ObligSBinTre<T> implements Beholder<T> {
 
 
     public String lengstGren() {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+
+        if (rot == null) {
+            return "[";
+        }
+
+        ArrayList<ArrayList<T>> gren = allRootToLeafPaths(rot, new ArrayList<>(), new ArrayList<>());
+
+        ArrayList<T> lengst = new ArrayList<>();
+
+        for (ArrayList<T> a : gren) {
+            if (a.size() > lengst.size()) {
+                lengst = a;
+            }
+        }
+        return lengst.toString();
+    }
+
+    private ArrayList<ArrayList<T>> allRootToLeafPaths(Node<T> node, ArrayList<ArrayList<T>> paths, ArrayList<T> path)
+    {
+        if(node==null)
+        {
+            return null;
+        }
+        path.add(node.verdi);
+
+        if(node.venstre==null && node.høyre==null)
+        {
+
+            paths.add(path);
+        }
+        else
+        {
+            allRootToLeafPaths(node.venstre, paths, new ArrayList<>(path));
+            allRootToLeafPaths(node.høyre, paths, new ArrayList<>(path));
+        }
+        return paths;
     }
 
     public String[] grener() {
