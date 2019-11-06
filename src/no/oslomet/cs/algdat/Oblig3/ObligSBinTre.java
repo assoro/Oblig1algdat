@@ -189,29 +189,30 @@ public class ObligSBinTre<T> implements Beholder<T> {
         s.append('[');                             //Startparentes: [
 
         //Bruker en hjelpestakk (tabellstakk)
-        Stakk<Node<T>> stakk = new TabellStakk<>();
-
-        while(p.høyre != null){
-            stakk.leggInn(p);
-            p = p.høyre;
+        Stack<Node<T>> stakk = new Stack<>();
+        for(; p.høyre != null; p = p.høyre) {
+            stakk.add(p);
         }
-        s.append(p.verdi.toString()); //Legger inn p verdi
 
-        while (true){
-            if(p.venstre != null){
-                p = p.venstre;
+        while (true) {
+            s.append(p.verdi.toString());
 
-                while(p.høyre != null){
-                    stakk.leggInn(p);
-                    p = p.høyre;
-                }
+            if (p.venstre != null) {
+
+                for (p = p.venstre; p.høyre != null; p = p.høyre )
+                stakk.add(p);
             }
-            else if (!stakk.tom()){
-                p = stakk.taUt();
+
+            else if (!stakk.empty()) {
+                p = stakk.remove(stakk.size() - 1);
+
             }
+
             else break;
+            s.append(",").append(" ").append(p.verdi);
         }
 
+        s.append(" ]");
         return s.toString(); //Returnerer tegnsrengen
     }
 
@@ -251,7 +252,7 @@ public class ObligSBinTre<T> implements Beholder<T> {
     public String lengstGren() {
 
         if (rot == null) {
-            return "[";
+            return "[]";
         }
 
         ArrayList<ArrayList<T>> gren = allRootToLeafPaths(rot, new ArrayList<>(), new ArrayList<>());
@@ -328,16 +329,14 @@ public class ObligSBinTre<T> implements Beholder<T> {
         } sj.add(p.toString());
 
         while(true) {
-          if(nestePostorden(p) == null){
+          if(nesteInorden(p) == null){
             break;
           }
-          p = nestePostorden(p);
+          p = nesteInorden(p);
           sj.add(p.toString());
         }
 
         return sj.toString();
-
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
     }
 
     @Override
