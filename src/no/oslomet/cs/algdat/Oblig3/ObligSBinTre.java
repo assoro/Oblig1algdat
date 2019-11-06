@@ -178,7 +178,41 @@ public class ObligSBinTre<T> implements Beholder<T> {
     }
 
     public String omvendtString() {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        //Starter i roten p
+        Node<T> p = rot;
+
+        //Et tomt tre
+        if (tom()) return "[]";
+
+        //StringBuilder
+        StringBuilder s = new StringBuilder();     //Oppretter en StringBuilder
+        s.append('[');                             //Startparentes: [
+
+        //Bruker en hjelpestakk (tabellstakk)
+        Stakk<Node<T>> stakk = new TabellStakk<>();
+
+        while(p.høyre != null){
+            stakk.leggInn(p);
+            p = p.høyre;
+        }
+        s.append(p.verdi.toString()); //Legger inn p verdi
+
+        while (true){
+            if(p.venstre != null){
+                p = p.venstre;
+
+                while(p.høyre != null){
+                    stakk.leggInn(p);
+                    p = p.høyre;
+                }
+            }
+            else if (!stakk.tom()){
+                p = stakk.taUt();
+            }
+            else break;
+        }
+
+        return s.toString(); //Returnerer tegnsrengen
     }
 
     public String høyreGren() {
@@ -258,10 +292,51 @@ public class ObligSBinTre<T> implements Beholder<T> {
     }
 
     public String bladnodeverdier() {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+      if(antall == 0){
+        return "[]";
+      }
+      StringJoiner sj = new StringJoiner(", ", "[", "]");
+      Node<T> p = rot;
+      while(p.venstre != null){
+        p = p.venstre;
+      }
+      for(int i = 0; i < antall; i++){
+        if((p.venstre == null) && (p.høyre == null)){
+          sj.add(p.toString());
+        }
+        p = nesteInorden(p);
+      }
+      return sj.toString();
+
+        //throw new UnsupportedOperationException("Ikke kodet ennå!");
     }
 
     public String postString() {
+
+        if(antall == 0){
+          return "[]";
+        }
+
+        StringJoiner sj = new StringJoiner(", ", "[", "]");
+        Node<T> p = rot;
+        while(p.venstre != null || p.høyre != null) {
+          if(p.venstre == null){
+            p = p.høyre;
+          } else {
+            p = p.venstre;
+          }
+        } sj.add(p.toString());
+
+        while(true) {
+          if(nestePostorden(p) == null){
+            break;
+          }
+          p = nestePostorden(p);
+          sj.add(p.toString());
+        }
+
+        return sj.toString();
+
         throw new UnsupportedOperationException("Ikke kodet ennå!");
     }
 
@@ -275,9 +350,23 @@ public class ObligSBinTre<T> implements Beholder<T> {
         private boolean removeOK = false;
         private int iteratorendringer = endringer;
 
-        private BladnodeIterator()  // konstruktør
-        {
-            throw new UnsupportedOperationException("Ikke kodet ennå!");
+        private BladnodeIterator(){  // konstruktør
+            //Dersom p er lik null så skjer det ingenting
+            if (p == null){
+                return;
+            }
+
+            //Dersom p ikke er lik null
+            if (p != null){
+                while (p.venstre != null && p.høyre != null){
+                    if (p.venstre != null){
+                        p = p.venstre;
+                    }
+                    else{
+                        p = p.høyre;
+                    }
+                }
+            }
         }
 
         @Override
@@ -287,7 +376,23 @@ public class ObligSBinTre<T> implements Beholder<T> {
 
         @Override
         public T next() {
-            throw new UnsupportedOperationException("Ikke kodet ennå!");
+            //Sjekker om det er flere noder igjen
+            //Kaster en NoSuchElementException hvis det ikke er flere bladnoder igjen.
+            // Hvis ikke, skal den returnere en bladnodeverdi.
+            if(!hasNext()){
+                throw new NoSuchElementException("Ingen flere noder igjen.");
+            }
+            //Sjekker om endringer er lik iteratorendriger
+            if(endringer != iteratorendringer){
+                throw new ConcurrentModificationException("Det har blitt endret.");
+            }
+
+            removeOK = true; //Bladnoden kan trygt fjernes
+            T verdi = p.verdi; //Holder veriden til p før p flyttes
+            q = p;  //Setter q til det p er
+            p = nesteInorden(p); //Flytter p
+
+            return q.verdi; //Returnerer bladnodeverdi
         }
 
         @Override
