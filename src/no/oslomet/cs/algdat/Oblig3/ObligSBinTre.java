@@ -130,7 +130,27 @@ public class ObligSBinTre<T> implements Beholder<T> {
 
     @Override
     public void nullstill() {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        if(!(tom())){
+
+            int antall = antall();
+            if(antall == 1){
+                fjern(rot.verdi);
+                endringer++;
+            } else {
+                Node<T> p = rot;
+                while (p.venstre != null) {
+                    p = p.venstre;
+                }
+                T verdi = p.verdi;
+
+                for (int i = 0; i < antall; i++) {
+                    verdi = p.verdi;
+                    p = nesteInorden(p);
+                    fjern(verdi);
+                    endringer++;
+                }
+            }
+        }
     }
 
 
@@ -182,26 +202,32 @@ public class ObligSBinTre<T> implements Beholder<T> {
                 return "[]";                    // et tomt tre
             }
 
-            StringBuilder s = new StringBuilder();     // oppretter en StringBuilder
-            s.append('[');                             // startparentes: [
+            StringBuilder streng = new StringBuilder();
+            Stack<Node<T>> stakk = new Stack<>();
+            streng.append("[");
 
-            Node<T> p = rot;
+            Node<T> n = rot;
 
-            while (p.høyre != null) {
-                p = p.høyre;
-                s.append(p.verdi);
-                p = nesteInorden(p);
+            while(n.venstre != null) {
+                n = n.venstre;
             }
 
-            while (p != null)
-            {
-                s.append(',').append(' ').append(p.verdi);   // legger inn p.verdi
-                p = nesteInorden(p);
-
+            for (int i = 0; i < antall; i++) {
+                stakk.add(n);
+                n = nesteInorden(n);
             }
-            s.append(']');                             // avslutningsparentes: ]
 
-            return s.toString();                       // returnerer tegnstrengen
+            for (int i = 0; i < antall; i++) {
+                streng.append(stakk.pop());
+
+                if (i != (antall - 1)) {
+                    streng.append(", ");
+                }
+            }
+
+            streng.append("]");
+            return streng.toString();
+
         }
 
 
@@ -244,55 +270,92 @@ public class ObligSBinTre<T> implements Beholder<T> {
             return "[]";
         }
 
-        ArrayList<ArrayList<T>> gren = allRootToLeafPaths(rot, new ArrayList<>(), new ArrayList<>());
+        //Lager en hjelpe-stack, til å bevege seg nedover treeet, og finne lengst vei
+        ArrayDeque<Node<T>> stakk = new ArrayDeque<>();
+        //Starter med rot-noden
+        stakk.addFirst(rot);
+        Node<T> n = rot;
 
-        ArrayList<T> lengst = new ArrayList<>();
+        //Mens stakken IKKE er tom
+        //Stacker opp verdier og fjerner alltid første(siste)verdi
+        while (!stakk.isEmpty()) {
+            n = stakk.removeLast();
 
-        for (ArrayList<T> a : gren) {
-            if (a.size() > lengst.size()) {
-                lengst = a;
+            //Setter inn p i passende posisjon, om plassen er ledig eller ikke.
+            if (n.høyre != null) {
+                stakk.add(n.høyre);
+            }
+            if (n.venstre != null) {
+                stakk.add(n.venstre);
             }
         }
-        return lengst.toString();
-    }
 
-    private ArrayList<ArrayList<T>> allRootToLeafPaths(Node<T> node, ArrayList<ArrayList<T>> paths, ArrayList<T> path)
-    {
-        if(node==null)
-        {
-            return null;
-        }
-        path.add(node.verdi);
+        //hjelpeverdi- siste bladnode
+        StringBuilder streng = new StringBuilder();
+        ArrayDeque<Node<T>> stakk2 = new ArrayDeque<>();
 
-        if(node.venstre==null && node.høyre==null)
-        {
+        stakk2.add(n);
+        streng.append("[");
 
-            paths.add(path);
+        while (n.forelder != null) {
+            n = n.forelder;
+            stakk2.addFirst(n);
         }
-        else
-        {
-            allRootToLeafPaths(node.venstre, paths, new ArrayList<>(path));
-            allRootToLeafPaths(node.høyre, paths, new ArrayList<>(path));
+
+        streng.append(stakk2.pop());
+
+        while (!stakk2.isEmpty()) {
+            streng.append(", ").append(stakk2.pop());
         }
-        return paths;
+        streng.append("]");
+        return streng.toString();
+
     }
 
     public String[] grener() {
         if(tom()) {
             return new String[0];
         }
-        ArrayList<ArrayList<T>> gren
-                = allRootToLeafPaths(rot, new ArrayList<>(), new ArrayList<>());
 
-        String[] list = new String[gren.size()];
+        String[] tabell = new String[1];
+        LinkedList<Node<T>> liste1 = new LinkedList<>();
+        LinkedList<Node<T>> liste2 = new LinkedList<>();
+        boolean falsk = false;
+
+        Node<T> n = rot;
         int teller = 0;
-        for (ArrayList<T> a:
-                gren) {
-            list[teller] = a.toString();
-            teller++;
-        }
-        return list;
 
+        while(!falsk){
+            StringJoiner string = new StringJoiner(", ","[","]");
+            while(n.venstre != null || n.høyre != null){
+                if(n.venstre != null) {
+                    if(n.høyre != null) {
+                        liste1.add(n.høyre);
+                    }
+                    n = n.venstre;
+                } else {
+                    n = n.høyre;
+                }
+            }
+            while(n!=null) {
+                liste2.add(n);
+                n=n.forelder;
+            }
+            while(!liste2.isEmpty()){
+                string.add(liste2.pollLast().toString());
+            }
+            if(tabell[tabell.length-1] != null){
+                tabell = Arrays.copyOf(tabell, tabell.length+1);
+            }
+            tabell[teller++] = string.toString();
+
+            if(!liste1.isEmpty()){
+                n = liste2.pollLast();
+            } else {
+                falsk = true;
+            }
+        }
+        return tabell;
     }
 
     public String bladnodeverdier() {
