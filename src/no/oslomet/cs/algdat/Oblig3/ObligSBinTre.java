@@ -91,7 +91,14 @@ public class ObligSBinTre<T> implements Beholder<T> {
     }
 
     public int fjernAlle(T verdi) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        int antallfjernet= 0;
+
+        while (fjern(verdi)) {
+            antallfjernet++;
+        }
+
+        return antallfjernet;
+
     }
 
     @Override
