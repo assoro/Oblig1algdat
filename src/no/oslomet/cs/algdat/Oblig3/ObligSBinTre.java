@@ -91,7 +91,14 @@ public class ObligSBinTre<T> implements Beholder<T> {
     }
 
     public int fjernAlle(T verdi) {
-        throw new UnsupportedOperationException("Ikke kodet ennå!");
+        int antallfjernet= 0;
+
+        while (fjern(verdi)) {
+            antallfjernet++;
+        }
+
+        return antallfjernet;
+
     }
 
     @Override
@@ -476,8 +483,24 @@ public class ObligSBinTre<T> implements Beholder<T> {
 
         @Override
         public void remove() {
-            throw new UnsupportedOperationException("Ikke kodet ennå!");
-        }
+                if (!removeOK)
+                    throw new IllegalStateException("Ikke lov å kalle på metoden!");
+
+                removeOK = false;
+
+                if (q.forelder == null)
+                    rot = null;
+                else
+                if (q.forelder.venstre == q) q.forelder.venstre = null;
+                else q.forelder.høyre = null;
+
+                antall--;
+                endringer++;
+                iteratorendringer++;
+            }
+
+
+
 
     } // BladnodeIterator
 
