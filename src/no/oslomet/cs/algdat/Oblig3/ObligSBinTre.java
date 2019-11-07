@@ -296,50 +296,64 @@ public class ObligSBinTre<T> implements Beholder<T> {
     }
 
     public String bladnodeverdier() {
-      if(antall == 0){
-        return "[]";
-      }
-      StringJoiner sj = new StringJoiner(", ", "[", "]");
-      Node<T> p = rot;
-      while(p.venstre != null){
-        p = p.venstre;
-      }
-      for(int i = 0; i < antall; i++){
-        if((p.venstre == null) && (p.høyre == null)){
-          sj.add(p.toString());
-        }
-        p = nesteInorden(p);
-      }
-      return sj.toString();
+        if(tom()) return "[]";
 
-        //throw new UnsupportedOperationException("Ikke kodet ennå!");
+        // Hjelpevariabler / stack
+        ArrayDeque<Node<T>> stakk = new ArrayDeque<>();
+        Node<T> p = rot;
+
+        //Drar til nederste node - til venstre
+        while (p.venstre != null){
+            p = p.venstre;
+        }
+
+        //Sjekker om noden er en bladnode
+        if(p.høyre == null && p.venstre == null){
+            stakk.addLast(p);
+        }
+
+        //Itererer gjennom alle noder, og legger til bladnode(r) til hver gren,
+        // og sjekker om de har nådd høyre(siste bladnode)
+        //legger inn i stacken
+        while (nesteInorden(p) != null){
+            p = nesteInorden(p);
+            if(p.venstre == null && p.høyre == null){
+                stakk.addLast(p);
+            }
+        }
+
+        //Legger til stack verdiene i en string
+        String bladNode = "[";
+        bladNode += stakk.pop();
+        while (!(stakk.isEmpty())){
+            bladNode += ", " + stakk.pop();
+        }
+        bladNode += "]";
+
+        return bladNode;
     }
 
-    public String postString() {
-        Node<T> p = rot;
-        Node<T> pn;
+    public String postString() {StringBuilder sb = new StringBuilder();
+        sb.append("[");
 
-        if(tom()){
-          return "[]";
+        if(!tom()){
+            Node<T> p = rot;
+            finnNodeIterativt(p, sb);
         }
 
-        StringJoiner sj = new StringJoiner(", ", "[", "]");
+        sb.append("]");
 
-        while(p.høyre != null || p.venstre != null) {
-          if(p.venstre == null){
-            p = p.venstre;
-          }
+        return sb.toString();
+    }
 
-          else {
-            p = p.høyre;
-          }
-        }
+    private void finnNodeIterativt(Node<T> p, StringBuilder sb){
+        if(p.venstre != null) finnNodeIterativt(p.venstre, sb);
+        if(p.høyre != null) finnNodeIterativt(p.høyre, sb);
+        if(p.venstre == null && p.høyre == null);
 
-        while (p != null) {
-            sj.add(p.toString());
-        }
+        sb.append(p.verdi);
+        if(p != rot) sb.append(", ");
 
-        return sj.toString();
     }
 
     @Override
