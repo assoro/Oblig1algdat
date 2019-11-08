@@ -57,11 +57,21 @@ public class ObligSBinTre<T> implements Beholder<T> {
             cmp = comp.compare(verdi, p.verdi);// bruker komparatoren
             p = cmp < 0 ? p.venstre : p.høyre;    // flytter p
         }
+
         p = new Node<>(verdi, q);  // q er forelder til ny node
 
-        if (q == null) rot = p;
-        else if (cmp < 0) q.venstre = p;
-        else q.høyre = p;
+        if (q == null) {
+            rot = p;
+        }
+        else if (cmp < 0) {
+            q.venstre = p;
+            p.forelder = q;
+        }
+
+        else {
+            q.høyre = p;
+            p.forelder = q;
+        }
 
         antall++;     // én verdi mer i treet
         endringer++;  // innlegging er en endring
@@ -88,61 +98,67 @@ public class ObligSBinTre<T> implements Beholder<T> {
     @Override
     public boolean fjern(T verdi)  // hører til klassen SBinTre
     {
-      if (verdi == null) return false;  // treet har ingen nullverdier
+        if (verdi == null) {
+            return false;  // treet har ingen nullverdier
+        }
 
-      Node<T> p = rot, q = null;   // q skal være forelder til p
+        Node<T> n = rot, m = null;   // q skal være forelder til p
 
-      while (p != null)            // leter etter verdi
-      {
-        int cmp = comp.compare(verdi,p.verdi);      // sammenligner
-        if (cmp < 0) { q = p; p = p.venstre; }      // går til venstre
-        else if (cmp > 0) { q = p; p = p.høyre; }   // går til høyre
-        else break;    // den søkte verdien ligger i p
-      }
-      if (p == null)
-          return false;   // finner ikke verdi
+        while (n != null)  // leter etter verdi
+        {
+            int cmp = comp.compare(verdi, n.verdi); // sammenligner
 
-      if (p.venstre == null || p.høyre == null)  // Tilfelle 1) og 2)
-      {
-        Node<T> b = p.venstre != null ? p.venstre : p.høyre;  // b for barn
-        if (p == rot)
-            rot = b;
+            if (cmp < 0) {
+                m = n;
+                n = n.venstre; // går til venstre
+            } else if (cmp > 0) {
+                m = n;
+                n = n.høyre; // går til høyre
+            } else break;    // den søkte verdien ligger i p
+        }
+        if (n == null)
+            return false;   // finner ikke verdi
 
-        else if (p == q.venstre) q.venstre = b;
-        else q.høyre = b;
-      }
+        if (n.venstre == null || n.høyre == null) { // Tilfelle 1) og 2)
+            Node<T> b = n.venstre != null ? n.venstre : n.høyre;  // b for barn
 
-      else  // Tilfelle 3)
-      {
-          Node<T> s = p, r = p.høyre;   // finner neste i inorden
-          while (r.venstre != null) {
-              s = r;    // s er forelder til r
-              r = r.venstre;
-          }
+            if (n == rot)
+                rot = b;
 
-          p.verdi = r.verdi;   // kopierer verdien i r til p
+            else if (n == m.venstre) {
+                m.venstre = b;
+            } else m.høyre = b;
 
-          if (s != p) {
-              s.venstre = r.høyre;
-              if(r.høyre != null){
-                  r.forelder.høyre = s;
-              }
+            if (b != null) {
+                b.forelder = m;
+            }
+        } else  // Tilfelle 3)
+        {
+            Node<T> s = n, r = n.høyre;   // finner neste i inorden
+            while (r.venstre != null) {
+                s = r;    // s er forelder til r
+                r = r.venstre;
+            }
 
+            n.verdi = r.verdi;   // kopierer verdien i r til p
 
-          } else {
-              s.høyre = r.høyre;
-              if(r.høyre != null){
-                  r.forelder.høyre = s;
-              }
-          }
-      }
+            if (s != n) {
+                s.venstre = r.høyre;
+            }
+            else {
+                s.høyre = r.høyre;
+                r.høyre.forelder = s;
+            }
+            r.forelder = s;
+        }
 
+      endringer++;
       antall--;   // det er nå én node mindre i treet
       return true;
     }
 
     public int fjernAlle(T verdi) {
-        int antallfjernet= 0;
+        int antallfjernet = 0;
 
         while (fjern(verdi)) {
             antallfjernet++;
@@ -341,10 +357,10 @@ public class ObligSBinTre<T> implements Beholder<T> {
 
             //Setter inn p i passende posisjon, om plassen er ledig eller ikke.
             if (n.høyre != null) {
-                stakk.add(n.høyre);
+                stakk.addFirst(n.høyre);
             }
             if (n.venstre != null) {
-                stakk.add(n.venstre);
+                stakk.addFirst(n.venstre);
             }
         }
 
@@ -352,7 +368,7 @@ public class ObligSBinTre<T> implements Beholder<T> {
         StringBuilder streng = new StringBuilder();
         ArrayDeque<Node<T>> stakk2 = new ArrayDeque<>();
 
-        stakk2.add(n);
+        stakk2.addFirst(n);
         streng.append("[");
 
         while (n.forelder != null) {
@@ -483,24 +499,19 @@ public class ObligSBinTre<T> implements Beholder<T> {
     }
 
     private class BladnodeIterator implements Iterator<T> {
-        private Node<T> p = rot, q = null;
+        private Node<T> n = rot, m = null;
         private boolean removeOK = false;
         private int iteratorendringer = endringer;
 
         private BladnodeIterator(){  // konstruktør
             //Dersom p er lik null så skjer det ingenting
-            if (p == null){
-                return;
-            }
-
-            //Dersom p ikke er lik null
-            if (p != null){
-                while (p.venstre != null && p.høyre != null){
-                    if (p.venstre != null){
-                        p = p.venstre;
+            if (!tom()){
+                while (n.venstre != null && n.høyre != null){
+                    if (n.venstre != null){
+                        n = n.venstre;
                     }
                     else{
-                        p = p.høyre;
+                        n = n.høyre;
                     }
                 }
             }
@@ -508,29 +519,34 @@ public class ObligSBinTre<T> implements Beholder<T> {
 
         @Override
         public boolean hasNext() {
-            return p != null;  // Denne skal ikke endres!
+            return n != null;  // Denne skal ikke endres!
         }
 
         @Override
         public T next() {
-            //Sjekker om det er flere noder igjen
-            //Kaster en NoSuchElementException hvis det ikke er flere bladnoder igjen.
-            // Hvis ikke, skal den returnere en bladnodeverdi.
-            if(!hasNext()){
-                throw new NoSuchElementException("Ingen flere noder igjen.");
-            }
-            //Sjekker om endringer er lik iteratorendriger
-            if(endringer != iteratorendringer){
-                throw new ConcurrentModificationException("Det har blitt endret.");
+            if (!hasNext()) {
+
+                throw new NoSuchElementException("Ingen fler bladnoder!");
             }
 
-            removeOK = true; //Bladnoden kan trygt fjernes
-            T verdi = p.verdi; //Holder veriden til p før p flyttes
-            q = p;  //Setter q til det p er
-            p = nesteInorden(p); //Flytter p
+            else if (endringer != iteratorendringer) {
+                throw new ConcurrentModificationException("Endringer(" + endringer + ") != iteratorendringer(" + iteratorendringer + ")");
+            }
 
-            return q.verdi; //Returnerer bladnodeverdi
+            removeOK = true;
+
+            m = n;
+            T verdi = n.verdi;
+            while(hasNext()) {
+                n = nesteInorden(n);
+                if (n == null)
+                    return verdi;
+
+                if (n.venstre == null && n.høyre == null) return verdi;
+            }
+            return verdi;
         }
+
 
         @Override
         public void remove() {
@@ -539,11 +555,11 @@ public class ObligSBinTre<T> implements Beholder<T> {
 
                 removeOK = false;
 
-                if (q.forelder == null)
+                if (m.forelder == null)
                     rot = null;
                 else
-                if (q.forelder.venstre == q) q.forelder.venstre = null;
-                else q.forelder.høyre = null;
+                if (m.forelder.venstre == m) m.forelder.venstre = null;
+                else m.forelder.høyre = null;
 
                 antall--;
                 endringer++;
