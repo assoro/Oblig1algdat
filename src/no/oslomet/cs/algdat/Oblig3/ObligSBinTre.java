@@ -52,7 +52,7 @@ public class ObligSBinTre<T> implements Beholder<T> {
         Node<T> q = null;   // hjelpevariabel
         int cmp = 0;        // hjelpevariabel
 
-        while (p != null) {
+        while (p != null) { // fortsetter til p er ute av treet
             q = p;                                // q er forelder til p
             cmp = comp.compare(verdi, p.verdi);// bruker komparatoren
             p = cmp < 0 ? p.venstre : p.høyre;    // flytter p
@@ -60,39 +60,40 @@ public class ObligSBinTre<T> implements Beholder<T> {
 
         p = new Node<>(verdi, q);  // q er forelder til ny node
 
-        if (q == null) {
+        if (q == null) { // her setter vi p til rotnode
             rot = p;
         }
-        else if (cmp < 0) {
-            q.venstre = p;
-            p.forelder = q;
+        else if (cmp < 0) { // hvis cmp er mindre enn null (sammenlikning), hvis inn node er mindre enn rotnoden/ forrige node
+            q.venstre = p; // gå til venstre
+            p.forelder = q; // forrie blir satt til forelder
         }
 
         else {
-            q.høyre = p;
-            p.forelder = q;
+            q.høyre = p; // hvis inn node er større eller lik rotnode/ forrige node gå til høyre
+            p.forelder = q; //forrige blir satt til forelder
         }
 
-        antall++;     // én verdi mer i treet
-        endringer++;  // innlegging er en endring
+        antall++;     // øker ettersom en verdi blir lagt inn i treet
+        endringer++;  // øker på endringer etter hver innleggelse
 
-        return true;  // vellykket innlegging
+        return true;  // innleggingen var vellyket
     }
 
     @Override
     public boolean inneholder(T verdi) {
-        if (verdi == null) return false;
+        if (verdi == null)  //tester om treet inneholder verdi
+            return false; //return false hvis ikke
 
-        Node<T> p = rot;
+        Node<T> p = rot; // setter rotnoden som p og starter ved rotnoden og går til venstre
 
-        while (p != null) {
-            int cmp = comp.compare(verdi, p.verdi);
-            if (cmp < 0) p = p.venstre;
-            else if (cmp > 0) p = p.høyre;
-            else return true;
+        while (p != null) { //går videre i treet
+            int cmp = comp.compare(verdi, p.verdi); //comparator som sammenligner verdien som komer inn med eksisterende verdi
+            if (cmp < 0) p = p.venstre; //hvis ikke verdien er der fra før og den er mindre enn rotnoden// forrige node, skal den gå til venstre.
+            else if (cmp > 0) p = p.høyre; //hvis den er lik eller større får den til høyre
+            else return true; // return true hvis verdi er lagt til
         }
 
-        return false;
+        return false; //false hvis treet inneholder verdi fra før
     }
 
     @Override
@@ -102,7 +103,7 @@ public class ObligSBinTre<T> implements Beholder<T> {
             return false;  // treet har ingen nullverdier
         }
 
-        Node<T> n = rot, m = null;   // q skal være forelder til p
+        Node<T> n = rot, m = null;   // m skal være forelder til n
 
         while (n != null)  // leter etter verdi
         {
@@ -120,7 +121,7 @@ public class ObligSBinTre<T> implements Beholder<T> {
             return false;   // finner ikke verdi
 
         if (n.venstre == null || n.høyre == null) { // Tilfelle 1) og 2)
-            Node<T> b = n.venstre != null ? n.venstre : n.høyre;  // b for barn
+            Node<T> b = n.venstre != null ? n.venstre : n.høyre;  // b er en verdi for barn
 
             if (n == rot)
                 rot = b;
@@ -386,50 +387,55 @@ public class ObligSBinTre<T> implements Beholder<T> {
 
     }
 
+
     public String[] grener() {
         if(tom()) {
             return new String[0];
         }
 
-        String[] tabell = new String[1];
-        LinkedList<Node<T>> liste1 = new LinkedList<>();
-        LinkedList<Node<T>> liste2 = new LinkedList<>();
-        boolean falsk = false;
+        Liste<String> tabell = new TabellListe<>();
+        StringBuilder streng = new StringBuilder();
 
-        Node<T> n = rot;
-        int teller = 0;
+        streng.append("[");
 
-        while(!falsk){
-            StringJoiner string = new StringJoiner(", ","[","]");
-            while(n.venstre != null || n.høyre != null){
-                if(n.venstre != null) {
-                    if(n.høyre != null) {
-                        liste1.add(n.høyre);
-                    }
-                    n = n.venstre;
-                } else {
-                    n = n.høyre;
-                }
-            }
-            while(n!=null) {
-                liste2.add(n);
-                n=n.forelder;
-            }
-            while(!liste2.isEmpty()){
-                string.add(liste2.pollLast().toString());
-            }
-            if(tabell[tabell.length-1] != null){
-                tabell = Arrays.copyOf(tabell, tabell.length+1);
-            }
-            tabell[teller++] = string.toString();
 
-            if(!liste1.isEmpty()){
-                n = liste2.pollLast();
-            } else {
-                falsk = true;
-            }
+        if (!tom()) {
+            grener(rot, tabell, streng);
         }
-        return tabell;
+
+        String[] grener = new String[tabell.antall()];           // oppretter tabell
+
+        int i = 0;
+        for (String gren : tabell)
+            grener[i++] = gren;                   // fra liste til tabell
+
+        return grener;                          // returnerer tabellen
+    }
+
+    private void grener(Node<T> node, Liste<String> tabell, StringBuilder streng)
+    {
+        T verdi = node.verdi;
+
+        int k = verdi.toString().length(); // lengden på verdi
+
+        if (node.høyre == null && node.venstre == null){  // bladnode
+            tabell.leggInn(streng.append(verdi).append(']').toString());
+
+            // må fjerne det som ble lagt inn sist - dvs. k + 1 tegn
+            streng.delete(streng.length() - k - 1, streng.length());
+        }
+        else {
+            streng.append(node.verdi).append(',').append(' ');  // legger inn k + 2 tegn
+
+            if (node.venstre != null){
+                grener(node.venstre, tabell, streng);
+            }
+            if (node.høyre != null) {
+                grener(node.høyre, tabell, streng);
+            }
+
+            streng.delete(streng.length() - k - 2, streng.length());   // fjerner k + 2 tegn
+        }
     }
 
     public String bladnodeverdier() {
@@ -506,7 +512,7 @@ public class ObligSBinTre<T> implements Beholder<T> {
         private BladnodeIterator(){  // konstruktør
             //Dersom p er lik null så skjer det ingenting
             if (!tom()){
-                while (n.venstre != null && n.høyre != null){
+                while (n.venstre != null || n.høyre != null){
                     if (n.venstre != null){
                         n = n.venstre;
                     }
@@ -525,7 +531,6 @@ public class ObligSBinTre<T> implements Beholder<T> {
         @Override
         public T next() {
             if (!hasNext()) {
-
                 throw new NoSuchElementException("Ingen fler bladnoder!");
             }
 
